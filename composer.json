@@ -1,0 +1,20 @@
+{
+  "name":"prestashop/favoriterider",
+  "description":"Sample module to test dev tools",
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\FavoriteRider\\": "src/"
+    }
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false
+  },
+  "type":"prestashop-module",
+  "authors": [
+    {
+      "name": "Yann Haefliger",
+      "email": "yhaefliger@gmail.com"
+    }
+  ]
+}

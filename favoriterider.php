@@ -1,10 +1,24 @@
 <?php
+declare(strict_types=1);
+
+use PrestaShop\Module\FavoriteRider\Tools\Installer;
+
 if (!defined('_PS_VERSION_')) {
   exit;
 }
 
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+  require_once __DIR__.'/vendor/autoload.php';
+}
+
 class FavoriteRider extends Module 
 {
+
+  /**
+   * Riders uploaded images path
+   */
+  private const RIDER_IMAGE_PATH = '/img/rider';
+
   public function __construct()
   {
     $this->name = 'favoriterider';
@@ -49,8 +63,9 @@ class FavoriteRider extends Module
    */
   public function install()
   {
-    return parent::install() && 
-    $this->installTables();
+    $installer = $this->getInstaller();
+    
+    return $installer->install() && parent::install();
     
   }
 
@@ -61,40 +76,19 @@ class FavoriteRider extends Module
    */
   public function uninstall()
   {
-    return parent::uninstall() && 
-    $this->uninstallTables();
+    $installer = $this->getInstaller();
+
+    return $installer->uninstall() && parent::uninstall();
   }
 
   /**
-   * Create DB table at installation
+   * Return installer instance
+   * TODO: try to get it from service container with Doctrine injected 
    *
-   * @return bool
+   * @return Installer
    */
-  private function installTables()
+  private function getInstaller()
   {
-    $sql = '
-      CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'favoriterider_rider` (
-        `id_rider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-        `name` varchar(64) NOT NULL,
-        `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
-        `position` int(10) unsigned NOT NULL DEFAULT 0,
-        `votes` int(10) unsigned NOT NULL DEFAULT 0,
-        PRIMARY KEY (`id_rider`)
-      ) ENGINE=' . pSQL(_MYSQL_ENGINE_) . ' COLLATE=utf8_unicode_ci;
-    ';
-
-    return Db::getInstance()->execute($sql);
-  }
-
-  /**
-   * Remove DB table on uninstall
-   *
-   * @return bool
-   */
-  private function uninstallTables() 
-  {
-    $sql = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'favoriterider_rider`';
-
-    return Db::getInstance()->execute($sql);
+    return new Installer();
   }
 }
