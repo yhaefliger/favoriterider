@@ -1,7 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use PrestaShop\Module\FavoriteRider\Tools\Installer;
+use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
+use PrestaShop\Module\FavoriteRider\Utils\Installer;
 
 if (!defined('_PS_VERSION_')) {
   exit;
@@ -24,25 +25,28 @@ class FavoriteRider extends Module
     $this->name = 'favoriterider';
     $this->version = '1.0.0';
     $this->author = 'Yann Haefliger';
-    $this->need_instance = 0;
-
-    parent::__construct();
-
-    $this->displayName = $this->getTranslator()->trans(
-      'Favorite Rider',
-      [],
-      'Modules.Favoriterider.Admin'
-    );
-
-    $this->description = $this->getTranslator()->trans(
-      'Let visitors vote for their favorite rider!',
-      [],
-      'Modules.Favoriterider.Admin'
-    );
-
     $this->ps_versions_compliancy = [
       'min' => '1.7.7.0',
       'max' => _PS_VERSION_,
+    ];
+
+    parent::__construct();
+
+    $this->displayName = $this->l('Favorite Rider');
+    $this->description = $this->l('Let visitors vote for their favorite rider!');
+    
+    $tabNames = [];
+    foreach (Language::getLanguages(true) as $lang) {
+      $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.Module.FavoriteRider.Admin', $lang['locale']);
+    }
+    $this->tabs = [
+      [
+        'route_name' => 'ps_controller_tabs_riders',
+        'class_name' => RidersController::TAB_CLASS_NAME,
+        'visible' => true,
+        'name' => $tabNames,
+        'parent_class_name' => 'IMPROVE'
+      ]
     ];
   }
 

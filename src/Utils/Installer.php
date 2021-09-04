@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace PrestaShop\Module\FavoriteRider\Tools;
+namespace PrestaShop\Module\FavoriteRider\Utils;
 
 use Db;
 
 /**
  * Class Installer
- * @package PrestaShop\Module\FavoriteRider\Tools
+ * @package PrestaShop\Module\FavoriteRider\Utils
  */
 class Installer 
 {
@@ -23,6 +23,8 @@ class Installer
       'CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'favoriterider_rider` (
         `id_rider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
         `name` varchar(64) NOT NULL,
+        `discipline` varchar(64) NOT NULL,
+        `image_name` varchar(64) NOT NULL,
         `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
         `position` int(10) unsigned NOT NULL DEFAULT 0,
         `votes` int(10) unsigned NOT NULL DEFAULT 0,
