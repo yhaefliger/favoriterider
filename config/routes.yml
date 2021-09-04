@@ -1,0 +1,7 @@
+favoriterider_riders_index:
+  path: /favorite_riders/riders
+  methods: [GET, POST]
+  defaults:
+      _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::indexAction'
+      _legacy_controller: 'AdminRidersController'
+      _legacy_link: 'AdminRidersController'

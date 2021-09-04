@@ -43,6 +43,15 @@ class Rider
      * @ORM\Column(type="string")
      */
     private $imageName;
+
+    /**
+     * Number of votes
+     *
+     * @var int
+     * 
+     * @ORM\Column(type="integer")
+     */
+    private $votes;
     
 
     /**
@@ -123,5 +132,25 @@ class Rider
     public function setImageName(string $imageName): void
     {
         $this->imageName = $imageName;
+    }
+
+    /**
+     * Get number of votes
+     *
+     * @return  int
+     */ 
+    public function getVotes(): int
+    {
+        return $this->votes;
+    }
+
+    /**
+     * Set number of votes
+     *
+     * @param  int  $votes  Number of votes
+     */ 
+    public function setVotes($votes): void
+    {
+        $this->votes = $votes;
     }
 }

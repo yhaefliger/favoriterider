@@ -41,7 +41,7 @@ class FavoriteRider extends Module
     }
     $this->tabs = [
       [
-        'route_name' => 'ps_controller_tabs_riders',
+        'route_name' => 'favoriterider_riders_index',
         'class_name' => RidersController::TAB_CLASS_NAME,
         'visible' => true,
         'name' => $tabNames,
