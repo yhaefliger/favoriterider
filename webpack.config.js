@@ -1,3 +1,5 @@
+const path = require('path');
+
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -10,8 +12,17 @@ Encore
     .setOutputPath('public/build')
     .setPublicPath('/public')
     .addEntry('admin/riders/index', './assets/js/admin/riders/index.js')
+    .enableBuildNotifications()
+    .enableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
 ;
 
-module.exports = Encore.getWebpackConfig();
+let config = Encore.getWebpackConfig();
+config.resolve.alias = {
+    '@app': path.resolve(__dirname, '../../admin-dev/themes/new-theme/js/app'),
+    '@js': path.resolve(__dirname, '../../admin-dev/themes/new-theme/js'),
+    '@pages': path.resolve(__dirname, '../../admin-dev/themes/new-theme/js/pages'),
+};
+
+module.exports = config;
