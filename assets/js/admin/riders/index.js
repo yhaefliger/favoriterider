@@ -1,10 +1,7 @@
-import Grid from '../../../../../../admin-dev/themes/new-theme/js/components/grid/grid';
-import FiltersResetExtension
-  from "../../../../../../admin-dev/themes/new-theme/js/components/grid/extension/filters-reset-extension";
-import SortingExtension
-  from "../../../../../../admin-dev/themes/new-theme/js/components/grid/extension/sorting-extension";
-import ReloadListExtension
-  from "../../../../../../admin-dev/themes/new-theme/js/components/grid/extension/reload-list-extension";
+import Grid from '@js/components/grid/grid';
+import FiltersResetExtension from "@js/components/grid/extension/filters-reset-extension";
+import SortingExtension from "@js/components/grid/extension/sorting-extension";
+import ReloadListExtension from "@js/components/grid/extension/reload-list-extension";
 
 const $ = window.$;
 
