@@ -37,7 +37,7 @@ class FavoriteRider extends Module
     
     $tabNames = [];
     foreach (Language::getLanguages(true) as $lang) {
-      $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.Module.FavoriteRider.Admin', $lang['locale']);
+      $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.FavoriteRider.Admin', $lang['locale']);
     }
     $this->tabs = [
       [
