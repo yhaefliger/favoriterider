@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\FavoriteRider\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="PrestaShop\Module\FavoriteRider\Repository\RiderRepository")

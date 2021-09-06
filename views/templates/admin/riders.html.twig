@@ -1,5 +1,25 @@
 {% extends '@!PrestaShop/Admin/layout.html.twig' %}
 
+{% set layoutHeaderToolbarBtn = {
+  add_rider: {
+    href: path('admin_favoriterider_riders_create'),
+    desc: 'Add new rider'|trans({}, 'Modules.FavoriteRider.Admin'),
+    icon: 'add_circle_outline',
+  },
+}
+%}
+
 {% block content %}
-    HELLO RIDERS!
+    <div class="row">
+        <div class="col">
+            {% include "@PrestaShop/Admin/Common/Grid/grid_panel.html.twig" with {'grid': ridersGrid} %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
+    <script src="{{ asset('../modules/favoriterider/public/build/admin/riders/index.js') }}"></script>
 {% endblock %}

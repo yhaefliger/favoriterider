@@ -15,7 +15,7 @@ services:
   prestashop.module.favoriterider.rider_grid_data_factory:
     class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
     arguments:
-      - '@prestashop.core.grid.query.product_query_builder' # service id of our query builder
+      - '@prestashop.module.favoriterider.rider_query_builder' # service id of our query builder
       - '@prestashop.core.hook.dispatcher' # every doctrine query builder needs the hook dispatcher
       - '@prestashop.core.grid.query.doctrine_query_parser' # parser to get the raw SQL query
       - 'rider_entity' #grid id

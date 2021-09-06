@@ -7,5 +7,5 @@ use Doctrine\ORM\EntityRepository;
 
 class RiderRepository extends EntityRepository
 {
-    
+    //TODO: mehtod to retrieve riders ordered by votes desc and limited (top 3, ...)
 }

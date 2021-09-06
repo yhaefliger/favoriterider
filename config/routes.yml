@@ -1,7 +1,22 @@
-favoriterider_riders_index:
-  path: /favorite_riders/riders
-  methods: [GET, POST]
+admin_favoriterider_riders_index:
+  path: /favorite_rider/riders
+  methods: GET
   defaults:
       _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::indexAction'
       _legacy_controller: 'AdminRidersController'
       _legacy_link: 'AdminRidersController'
+admin_favoriterider_riders_search:
+  path: /favorite_rider/riders
+  methods: POST
+  defaults:
+    _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::searchAction'
+    _legacy_controller: AdminRidersController
+    _legacy_link: AdminRidersController:submitFilterider
+#TODO: create/edit form!
+admin_favoriterider_riders_create:
+  path: /favorite_rider/riders/new
+  methods: [GET, POST]
+  defaults:
+    _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::createAction'
+    _legacy_controller: AdminRidersController
+    _legacy_link: AdminRidersController:addrider

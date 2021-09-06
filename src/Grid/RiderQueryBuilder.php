@@ -7,7 +7,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use PrestaShop\PrestaShop\Core\Grid\Query\AbstractDoctrineQueryBuilder;
 use PrestaShop\PrestaShop\Core\Grid\Search\SearchCriteriaInterface;
 
-final class ProductQueryBuilder extends AbstractDoctrineQueryBuilder
+final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
 {
 
     /**
@@ -31,7 +31,7 @@ final class ProductQueryBuilder extends AbstractDoctrineQueryBuilder
     public function getCountQueryBuilder(SearchCriteriaInterface $searchCriteria)
     {
         $qb = $this->getBaseQuery($searchCriteria->getFilters());
-        $qb->select('COUNT(d.id)');
+        $qb->select('COUNT(r.id_rider)');
 
         return $qb;
     }
@@ -51,6 +51,7 @@ final class ProductQueryBuilder extends AbstractDoctrineQueryBuilder
             ->from($this->dbPrefix . 'favoriterider_rider', 'r')
         ;
         foreach ($filters as $filterName => $filterValue) {
+            //TODO: change fitlering behaviour based on fitlerName column (id=, nb votes < and >?)
             $qb->andWhere("$filterName LIKE :$filterName");
             $qb->setParameter($filterName, '%' . $filterValue . '%');
         }
