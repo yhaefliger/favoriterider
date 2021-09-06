@@ -4,14 +4,52 @@ services:
     factory: ['@doctrine.orm.default_entity_manager', getRepository]
     arguments:
       - PrestaShop\Module\FavoriteRider\Entity\Rider
+
+  # form
+  prestashop.module.favoriterider.type.rider:
+    class: 'PrestaShop\Module\FavoriteRider\Form\RiderType'
+    parent: 'form.type.translatable.aware'
+    public: true
+    arguments:
+      - '@=service("prestashop.adapter.multistore_feature").isUsed()'
+    tags:
+      - { name: form.type }
+
+  prestashop.module.favoriterider.form.identifiable_object.data_provider.rider_data_provider:
+    class: 'PrestaShop\Module\FavoriteRider\Form\RiderFormDataProvider'
+    arguments:
+      - '@prestashop.module.favoriterider.repository.rider_repository'
+
+  prestashop.module.favoriterider.form.identifiable_object.builder.rider_form_builder:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
+    factory: 'prestashop.core.form.builder.form_builder_factory:create'
+    arguments:
+      - 'PrestaShop\Module\FavoriteRider\Form\RiderType'
+      - '@prestashop.module.favoriterider.form.identifiable_object.data_provider.rider_data_provider'
+
+  prestashop.module.favoriterider.form.identifiable_object.data_handler.rider_form_data_handler:
+    class: 'PrestaShop\Module\FavoriteRider\Form\RiderFormDataHandler'
+    arguments:
+      - '@prestashop.module.favoriterider.repository.rider_repository'
+      - '@doctrine.orm.default_entity_manager'
+
+  prestashop.module.favoriterider.form.identifiable_object.handler.rider_form_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
+    factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+    arguments:
+      - '@prestashop.module.favoriterider.form.identifiable_object.data_handler.rider_form_data_handler'
+
+  # grid
   prestashop.module.favoriterider.rider_grid_definition_factory:
     class: 'PrestaShop\Module\FavoriteRider\Grid\RiderGridDefinitionFactory'
     parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
     public: true
+
   prestashop.module.favoriterider.rider_query_builder:
     class: 'PrestaShop\Module\FavoriteRider\Grid\RiderQueryBuilder'
     parent: 'prestashop.core.grid.abstract_query_builder'
     public: true
+
   prestashop.module.favoriterider.rider_grid_data_factory:
     class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
     arguments:
@@ -19,6 +57,7 @@ services:
       - '@prestashop.core.hook.dispatcher' # every doctrine query builder needs the hook dispatcher
       - '@prestashop.core.grid.query.doctrine_query_parser' # parser to get the raw SQL query
       - 'rider_entity' #grid id
+
   prestashop.module.favoriterider.rider_grid_factory:
     class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
     arguments:

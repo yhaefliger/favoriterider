@@ -11,12 +11,21 @@ admin_favoriterider_riders_search:
   defaults:
     _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::searchAction'
     _legacy_controller: AdminRidersController
-    _legacy_link: AdminRidersController:submitFilterider
+    _legacy_link: AdminRidersController:search
 #TODO: create/edit form!
 admin_favoriterider_riders_create:
-  path: /favorite_rider/riders/new
+  path: /favorite_rider/riders/create
   methods: [GET, POST]
   defaults:
     _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::createAction'
     _legacy_controller: AdminRidersController
-    _legacy_link: AdminRidersController:addrider
+    _legacy_link: AdminRidersController:create
+admin_favoriterider_riders_edit:
+    path: /favorite_rider/riders/{riderId}/edit
+    methods: [GET, POST]
+    defaults:
+        _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::editAction'
+        _legacy_controller: 'AdminRidersController'
+        _legacy_link: 'AdminRidersController:edit'
+    requirements:
+        riderId: \d+

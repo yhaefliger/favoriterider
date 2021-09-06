@@ -20,10 +20,10 @@ class Installer
   public function install(): bool
   {
     $queries = [
-      'CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'favoriterider_rider` (
+      'CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'rider` (
         `id_rider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
         `name` varchar(64) NOT NULL,
-        `discipline` varchar(64) NOT NULL,
+        `discipline` varchar(255) NOT NULL,
         `image_name` varchar(64) NOT NULL,
         `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
         `position` int(10) unsigned NOT NULL DEFAULT 0,
@@ -43,7 +43,7 @@ class Installer
   public function uninstall(): bool
   {
     $queries = [
-      'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'favoriterider_rider`'
+      'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'rider`'
     ];
 
     return $this->executeQueries($queries);

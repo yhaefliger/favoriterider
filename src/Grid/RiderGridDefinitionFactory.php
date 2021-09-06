@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\FavoriteRider\Grid;
 
+use PrestaShop\PrestaShop\Core\Grid\Action\Row\RowActionCollection;
+use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\LinkRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Column\ColumnCollection;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ActionColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
@@ -45,7 +47,7 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
             ->add((new ActionColumn('actions'))
                 ->setName($this->trans('Actions', [], 'Admin.Actions'))
                 ->setOptions([
-                    //'actions' => $this->getRowActions(),
+                    'actions' => $this->getRowActions(),
                 ])
             )
         ;
@@ -77,5 +79,23 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ])
             );
         ;
+    }
+
+    /**
+     * Grid row actions
+     */
+    private function getRowActions()
+    {
+        return (new RowActionCollection())
+            ->add((new LinkRowAction('edit'))
+                ->setName($this->trans('Edit', [], 'Admin.Actions'))
+                ->setOptions([
+                    'route' => 'admin_favoriterider_riders_edit',
+                    'route_param_name' => 'riderId',
+                    'route_param_field' => 'id_rider',
+                ])
+                ->setIcon('edit')
+            )
+            ;
     }
 }
