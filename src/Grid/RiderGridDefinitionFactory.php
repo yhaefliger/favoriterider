@@ -3,17 +3,21 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\FavoriteRider\Grid;
 
+use Badge;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\RowActionCollection;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\LinkRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\SubmitRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Column\ColumnCollection;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ActionColumn;
+use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\BadgeColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ImageColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory;
 use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
 use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollection;
+use PrestaShopBundle\Form\Admin\Type\IntegerMinMaxFilterType;
 use PrestaShopBundle\Form\Admin\Type\SearchAndResetType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
@@ -45,6 +49,13 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     'src_field' => 'image',
                 ])
             )
+            ->add((new BadgeColumn('votes'))
+                ->setName($this->trans('Votes', [], 'Modules.FavoriteRider.Admin'))
+                ->setOptions([
+                    'field' => 'votes',
+                    'empty_value' => '0',
+                ])
+            )
             ->add((new DataColumn('name'))
                 ->setName($this->trans('Rider Name', [], 'Modules.FavoriteRier.Admin'))
                 ->setOptions([
@@ -70,7 +81,7 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
     {
         return (new FilterCollection())
             ->add(
-                (new Filter('id_rider', TextType::class))
+                (new Filter('id_rider', IntegerType::class))
                     ->setAssociatedColumn('id_rider')
                     ->setTypeOptions([
                         'required' => false,
@@ -97,6 +108,13 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     'attr' => [
                         'placeholder' => $this->trans('Search Rider discipline', [], 'Admin.Actions')
                     ]
+                ])
+            )
+            ->add(
+                (new Filter('votes', IntegerMinMaxFilterType::class))
+                ->setAssociatedColumn('votes')
+                ->setTypeOptions([
+                    'required' => false,
                 ])
             )
             ->add(

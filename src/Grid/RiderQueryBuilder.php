@@ -51,9 +51,22 @@ final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
             ->from($this->dbPrefix . 'rider', 'r')
         ;
         foreach ($filters as $filterName => $filterValue) {
-            //TODO: change fitlering behaviour based on fitlerName column (id=, nb votes < and >?)
-            $qb->andWhere("$filterName LIKE :$filterName");
-            $qb->setParameter($filterName, '%' . $filterValue . '%');
+            if ('id_rider' === $filterName) {
+                $qb->andWhere("$filterName = :$filterName");
+                $qb->setParameter($filterName, (int) $filterValue);
+            } elseif ('votes' === $filterName) {
+                if(isset($filterValue['min_field']) && !empty($filterValue['min_field'])){
+                    $qb->andWhere("$filterName >= :$filterName");
+                    $qb->setParameter($filterName, $filterValue['min_field']);
+                }
+                if(isset($filterValue['max_field']) && !empty($filterValue['max_field'])){                    
+                    $qb->andWhere("$filterName <= :$filterName");
+                    $qb->setParameter($filterName, $filterValue['max_field']);
+                }
+            } else {
+                $qb->andWhere("$filterName LIKE :$filterName");
+                $qb->setParameter($filterName, '%' . $filterValue . '%');
+            }
         }
 
         return $qb;
