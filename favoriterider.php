@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
+use PrestaShop\Module\FavoriteRider\Uploader\RiderImageUploader;
 use PrestaShop\Module\FavoriteRider\Utils\Installer;
+use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 if (!defined('_PS_VERSION_')) {
   exit;
@@ -13,7 +15,7 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
   require_once __DIR__.'/vendor/autoload.php';
 }
 
-class FavoriteRider extends Module 
+class FavoriteRider extends Module implements WidgetInterface
 {
 
 
@@ -67,8 +69,19 @@ class FavoriteRider extends Module
   {
     $installer = $this->getInstaller();
     
-    return $installer->install($this) && parent::install();
+    if(!file_exists(RiderImageUploader::RIDER_IMAGE_PATH)){
+      mkdir(RiderImageUploader::RIDER_IMAGE_PATH, 0755);
+    }
+
+    if(!$installer->install($this) || !parent::install()){
+      return false;
+    }
     
+    if(!$this->registerHook('displayHome')){
+      return false;
+    }
+    
+    return true;
   }
 
   /**
@@ -87,28 +100,45 @@ class FavoriteRider extends Module
    * Redirect to riders manage page on module config show
    */
   public function getContent()
-    {
-        Tools::redirectAdmin(
-            $this->context->link->getAdminLink('AdminRidersController')
-        );
-    }
+  {
+    Tools::redirectAdmin(
+      $this->context->link->getAdminLink('AdminRidersController')
+    );
+  }
 
-    /**
-     * Homepage Hook
-     * Display 3 most voted riders
-     *
-     * @return string
-     */
-    public function hookDisplayHome()
-    {
-      /** @var RiderRepository $repository */
-      $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
-      $riders = $repository->getTopRiders(3);
+  /**
+   * Homepage hook display top 3 riders
+   *
+   * @return string
+   */
+  public function hookDisplayHome()
+  {
+    $this->context->controller->registerStylesheet('prestashopm.module.favoriterider.front.home', $this->_path.'public/build/front/home.css');
+    
+    /** @var RiderRepository $repository */
+    $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
+    $riders = $repository->getTopRiders(3);
 
-      $this->smarty->assign(['riders' => $riders]);
+    $this->smarty->assign(['riders' => $riders]);
 
-      return $this->fetch('module:favoriterider/views/templates/front/home.tpl');
-    }
+    return $this->fetch('module:'.$this->name.'/views/templates/front/home.tpl');
+  }
+
+  public function renderWidget($hookName, array $configuration) 
+  {
+    $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
+
+    return $this->fetch('module:'.$this->name.'/views/templates/widget/mymodule.tpl');
+  }
+
+  public function getWidgetVariables($hookName , array $configuration)
+  {
+      $myParamKey = $configuration['my_param_key'] ?? null;
+      
+      return [
+          'my_var1' => 'my_var1_value',
+      ];
+  }
 
   /**
    * Return installer instance

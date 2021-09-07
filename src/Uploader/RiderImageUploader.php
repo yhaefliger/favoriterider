@@ -46,6 +46,11 @@ final class RiderImageUploader extends AbstractImageUploader
             throw new ImageOptimizationException('An error occurred while uploading the image. Check your directory permissions.');
         }
         
+        //admin thumb clear
+        if(file_exists(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg')){
+            @unlink(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg');
+        }
+
         $this->createThumbnail($riderId);
     }
 

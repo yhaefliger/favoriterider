@@ -8,9 +8,11 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
+    .enablePostCssLoader()
     .setOutputPath('public/build')
     .setPublicPath('/public')
     .addEntry('admin/riders/index', './assets/js/admin/riders/index.js')
+    .addStyleEntry('front/home', './assets/css/front/home.css')
     .enableBuildNotifications()
     .disableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()

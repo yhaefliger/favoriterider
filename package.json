@@ -5,6 +5,8 @@
   "author": "Yann Haefliger",
   "devDependencies": {
     "@symfony/webpack-encore": "^1.6.1",
+    "autoprefixer": "^10.3.4",
+    "postcss-loader": "^6.1.1",
     "webpack-notifier": "^1.13.0"
   },
   "scripts": {
@@ -17,5 +19,12 @@
     "presets": [
       "@babel/env"
     ]
-  }
+  },
+  "browserslist": [
+    "IE 10",
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead"
+  ]
 }

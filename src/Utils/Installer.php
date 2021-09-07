@@ -32,7 +32,11 @@ class Installer
       ) ENGINE=' . pSQL(_MYSQL_ENGINE_) . ' COLLATE=utf8_unicode_ci;'
     ];
     
-    return $this->executeQueries($queries) && $this->registerHooks($module);
+    if(!$this->executeQueries($queries)){
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -67,19 +71,4 @@ class Installer
         return true;
     }
 
-    /**
-     * Register hooks for the module.
-     *
-     * @param Module $module
-     *
-     * @return bool
-     */
-    private function registerHooks(Module $module): bool
-    {
-      $hooks = [
-        'displayHome'
-      ];
-
-      return (bool) $module->registerHook($hooks);
-    }
 }
