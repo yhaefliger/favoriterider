@@ -1,12 +1,12 @@
 admin_favoriterider_riders_index:
-  path: /favorite_rider/riders
+  path: /favorite-rider/riders
   methods: GET
   defaults:
       _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::indexAction'
       _legacy_controller: 'AdminRidersController'
       _legacy_link: 'AdminRidersController'
 admin_favoriterider_riders_search:
-  path: /favorite_rider/riders
+  path: /favorite-rider/riders
   methods: POST
   defaults:
     _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::searchAction'
@@ -14,18 +14,27 @@ admin_favoriterider_riders_search:
     _legacy_link: AdminRidersController:search
 #TODO: create/edit form!
 admin_favoriterider_riders_create:
-  path: /favorite_rider/riders/create
+  path: /favorite-rider/riders/create
   methods: [GET, POST]
   defaults:
     _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::createAction'
     _legacy_controller: AdminRidersController
     _legacy_link: AdminRidersController:create
 admin_favoriterider_riders_edit:
-    path: /favorite_rider/riders/{riderId}/edit
+    path: /favorite-rider/riders/{riderId}/edit
     methods: [GET, POST]
     defaults:
         _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::editAction'
         _legacy_controller: 'AdminRidersController'
         _legacy_link: 'AdminRidersController:edit'
+    requirements:
+        riderId: \d+
+admin_favoriterider_riders_delete:
+    path: /favorite-rider/riders/{riderId}/delete
+    methods: [DELETE]
+    defaults:
+        _controller: 'PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController::deleteAction'
+        _legacy_controller: 'AdminRidersController'
+        _legacy_link: 'AdminRidersController:delete'
     requirements:
         riderId: \d+

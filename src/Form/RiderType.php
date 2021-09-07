@@ -50,10 +50,10 @@ class RiderType extends TranslatorAwareType
           new NotBlank(),
         ]
       ])
-      ->add('image_name', FileType::class, [
+      ->add('image', FileType::class, [
         'label' => 'Rider Photo',
         'translation_domain' => 'Modules.FavoriteRider.Admin',
-        'required' => true,
+        'required' => false,
       ]);
   }
 }

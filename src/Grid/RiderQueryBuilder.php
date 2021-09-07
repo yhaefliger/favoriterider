@@ -48,7 +48,7 @@ final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
         $qb = $this->connection
             ->createQueryBuilder()
             ->select('*')
-            ->from($this->dbPrefix . 'favoriterider_rider', 'r')
+            ->from($this->dbPrefix . 'rider', 'r')
         ;
         foreach ($filters as $filterName => $filterValue) {
             //TODO: change fitlering behaviour based on fitlerName column (id=, nb votes < and >?)

@@ -34,7 +34,7 @@ class RiderFormDataProvider implements FormDataProviderInterface
     $riderData = [
       'name' => $rider->getName(),
       'discipline' => $rider->getDiscipline(),
-      'image_name' => $rider->getImageName(),
+      'votes' => $rider->getVotes(),
     ];
 
     return $riderData;
@@ -48,7 +48,7 @@ class RiderFormDataProvider implements FormDataProviderInterface
     return [
       'name' => '',
       'discipline' => '',
-      'image_name' => '',
+      'votes' => 0,
     ];
   }
 }

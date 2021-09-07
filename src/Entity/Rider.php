@@ -40,13 +40,6 @@ class Rider
     private $discipline;
 
     /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    private $imageName;
-
-    /**
      * Number of votes
      *
      * @var int
@@ -116,25 +109,6 @@ class Rider
         $this->discipline = $discipline;
     }
 
-    /**
-     * Get the value of imageName
-     *
-     * @return  string
-     */ 
-    public function getImageName(): string
-    {
-        return $this->imageName;
-    }
-
-    /**
-     * Set the value of imageName
-     *
-     * @param  string  $imageName
-     */ 
-    public function setImageName(string $imageName): void
-    {
-        $this->imageName = $imageName;
-    }
 
     /**
      * Get number of votes

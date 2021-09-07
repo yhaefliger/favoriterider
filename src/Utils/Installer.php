@@ -24,7 +24,6 @@ class Installer
         `id_rider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
         `name` varchar(64) NOT NULL,
         `discipline` varchar(255) NOT NULL,
-        `image_name` varchar(64) NOT NULL,
         `active` tinyint(1) unsigned NOT NULL DEFAULT 1,
         `position` int(10) unsigned NOT NULL DEFAULT 0,
         `votes` int(10) unsigned NOT NULL DEFAULT 0,

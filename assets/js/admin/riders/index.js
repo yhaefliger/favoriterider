@@ -4,7 +4,8 @@ import SortingExtension from "@components/grid/extension/sorting-extension";
 import ReloadListExtension from "@components/grid/extension/reload-list-extension";
 import ExportToSqlManagerExtension from "@components/grid/extension/export-to-sql-manager-extension";
 import ReloadListActionExtension from '@components/grid/extension/reload-list-extension';
-
+import LinkRowActionExtension from '@components/grid/extension/link-row-action-extension';
+import SubmitRowActionExtension from '@components/grid/extension/action/row/submit-row-action-extension';
 
 const $ = window.$;
 
@@ -16,4 +17,6 @@ $(() => {
   ridersGrid.addExtension(new ReloadListExtension());
   ridersGrid.addExtension(new ExportToSqlManagerExtension());
   ridersGrid.addExtension(new ReloadListActionExtension());
+  ridersGrid.addExtension(new LinkRowActionExtension());
+  ridersGrid.addExtension(new SubmitRowActionExtension());
 });
