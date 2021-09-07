@@ -1,0 +1,15 @@
+@use '../base';
+
+.riders-container{
+    text-align: center; 
+    .home-riders{
+        background-color: base.$mainColor;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        
+        & > div {
+            padding: 2rem;
+        }   
+    }
+}
