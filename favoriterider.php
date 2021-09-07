@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
+use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use PrestaShop\Module\FavoriteRider\Utils\Installer;
 
 if (!defined('_PS_VERSION_')) {
@@ -41,7 +42,8 @@ class FavoriteRider extends Module
         'class_name' => RidersController::TAB_CLASS_NAME,
         'visible' => true,
         'name' => $tabNames,
-        'parent_class_name' => 'IMPROVE'
+        'parent_class_name' => 'IMPROVE',
+        'icon' => 'snowboarding'
       ]
     ];
   }
@@ -65,7 +67,7 @@ class FavoriteRider extends Module
   {
     $installer = $this->getInstaller();
     
-    return $installer->install() && parent::install();
+    return $installer->install($this) && parent::install();
     
   }
 
@@ -82,8 +84,34 @@ class FavoriteRider extends Module
   }
 
   /**
+   * Redirect to riders manage page on module config show
+   */
+  public function getContent()
+    {
+        Tools::redirectAdmin(
+            $this->context->link->getAdminLink('AdminRidersController')
+        );
+    }
+
+    /**
+     * Homepage Hook
+     * Display 3 most voted riders
+     *
+     * @return string
+     */
+    public function hookDisplayHome()
+    {
+      /** @var RiderRepository $repository */
+      $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
+      $riders = $repository->getTopRiders(3);
+
+      $this->smarty->assign(['riders' => $riders]);
+
+      return $this->fetch('module:favoriterider/views/templates/front/home.tpl');
+    }
+
+  /**
    * Return installer instance
-   * TODO: try to get it from service container with Doctrine injected 
    *
    * @return Installer
    */

@@ -7,5 +7,14 @@ use Doctrine\ORM\EntityRepository;
 
 class RiderRepository extends EntityRepository
 {
-    //TODO: mehtod to retrieve riders ordered by votes desc and limited (top 3, ...)
+    /**
+     * Return riders with the most votes
+     *
+     * @param integer $nbRiders
+     * @return array 
+     */
+    public function getTopRiders($nbRiders = 3)
+    {
+        return $this->findBy([], ['votes' => 'DESC'], (int) $nbRiders);
+    }
 }

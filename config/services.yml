@@ -4,6 +4,7 @@ services:
     factory: ['@doctrine.orm.default_entity_manager', getRepository]
     arguments:
       - PrestaShop\Module\FavoriteRider\Entity\Rider
+      
   prestashop.module.favoriterider.image.rider_image_thumbnail_provider:
     class: 'PrestaShop\Module\FavoriteRider\Image\RiderImageThumbnailProvider'
     arguments:

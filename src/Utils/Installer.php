@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace PrestaShop\Module\FavoriteRider\Utils;
 
 use Db;
+use Module;
 
 /**
  * Class Installer
@@ -17,7 +18,7 @@ class Installer
    *
    * @return bool
    */
-  public function install(): bool
+  public function install(Module $module): bool
   {
     $queries = [
       'CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'rider` (
@@ -31,7 +32,7 @@ class Installer
       ) ENGINE=' . pSQL(_MYSQL_ENGINE_) . ' COLLATE=utf8_unicode_ci;'
     ];
     
-    return $this->executeQueries($queries);
+    return $this->executeQueries($queries) && $this->registerHooks($module);
   }
 
   /**
@@ -64,5 +65,21 @@ class Installer
         }
 
         return true;
+    }
+
+    /**
+     * Register hooks for the module.
+     *
+     * @param Module $module
+     *
+     * @return bool
+     */
+    private function registerHooks(Module $module): bool
+    {
+      $hooks = [
+        'displayHome'
+      ];
+
+      return (bool) $module->registerHook($hooks);
     }
 }

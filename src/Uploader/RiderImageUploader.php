@@ -66,9 +66,9 @@ final class RiderImageUploader extends AbstractImageUploader
                 count($_FILES) &&
                 file_exists($filename)
             ) {
-                list($widthOrig, $heightOrig) = getimagesize($filename);
-                $widthThumb = (300 * $widthOrig) / $heightOrig;
-
+                /**
+                 * Squared thumb 150x150
+                 */
                 $resized &= ImageManager::resize(
                     self::RIDER_IMAGE_PATH . $riderId . '.jpg',
                     self::RIDER_IMAGE_PATH . $riderId . '-mini.jpg',
@@ -76,11 +76,18 @@ final class RiderImageUploader extends AbstractImageUploader
                     150
                 );
 
-                $resized &= ImageManager::resize(
+                /**
+                 * Same proportions but 300 height thumb
+                 */
+                $heightThumb = 300;
+                list($widthOrig, $heightOrig) = getimagesize($filename);
+                $widthThumb = ($heightThumb * $widthOrig) / $heightOrig;
+
+                 $resized &= ImageManager::resize(
                     self::RIDER_IMAGE_PATH . $riderId . '.jpg',
                     self::RIDER_IMAGE_PATH . $riderId . '-thumb.jpg',
                     $widthThumb,
-                    300
+                    $heightThumb
                 );
                 
             }
