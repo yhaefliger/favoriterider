@@ -1,22 +1,5 @@
-@use '../base';
+@use '../../base';
 
-//"medals" colors
-$gold: #F9E755;
-$goldDark: #FDB73B;
-$silver:#D9DBDA;
-$silverDark:#A1A9AB;
-$bronze:#E7A27B;
-$bronzeDark:#C2774D;
-
-.gold{
-    color:$goldDark;
-}
-.silver{
-    color:$silverDark;
-}
-.bronze{
-    color:$bronzeDark;
-}
 .riders-container{
     text-align: center; 
     .home-riders{
@@ -66,18 +49,18 @@ $bronzeDark:#C2774D;
         .pos-2 {
             order:1;
             .image-container{
-                border-color: $silver;
+                border-color: base.$silver;
                 .badge{
-                    background-color:$silverDark;
+                    background-color:base.$silverDark;
                 }
             }
         }
         .pos-3 {
             order:3;
             .image-container{
-                border-color: $bronze;
+                border-color: base.$bronze;
                 .badge{
-                    background-color:$bronzeDark;
+                    background-color:base.$bronzeDark;
                 }
             }
             
@@ -90,13 +73,13 @@ $bronzeDark:#C2774D;
             }
             .image-container{
                 z-index: 20;
-                border:10px solid $gold;
+                border:10px solid base.$gold;
                 position:relative;
                 left:-1rem;
                 width:190px;
                 height: 190px;
                 .badge{
-                    background-color:$goldDark;
+                    background-color:base.$goldDark;
                 }
             }
         }

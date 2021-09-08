@@ -1,0 +1,22 @@
+$mainColor: #ff1986;
+//"medals" colors
+$gold: #F9E755;
+$goldDark: #FDB73B;
+$silver:#D9DBDA;
+$silverDark:#A1A9AB;
+$bronze:#E7A27B;
+$bronzeDark:#C2774D;
+
+.gold{
+    color:$goldDark;
+}
+.silver{
+    color:$silverDark;
+}
+.bronze{
+    color:$bronzeDark;
+} 
+.rirder-discipline{
+  color: #7a7a7a;
+  font-weight: 400;
+}
