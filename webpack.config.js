@@ -11,7 +11,7 @@ Encore
     .enablePostCssLoader()
     .setOutputPath('public/build')
     .setPublicPath('/public')
-    //.addEntry('admin/riders/index', './assets/js/admin/riders/index.js')
+    .addEntry('admin/riders/index', './assets/js/admin/riders/index.js')
     .addStyleEntry('front/home', './assets/css/front/home.scss')
     .enableBuildNotifications()
     .enableSassLoader()
