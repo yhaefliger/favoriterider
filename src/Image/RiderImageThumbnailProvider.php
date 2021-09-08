@@ -4,6 +4,7 @@ namespace PrestaShop\Module\FavoriteRider\Image;
 
 use HelperList;
 use ImageManager;
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\Module\FavoriteRider\Uploader\RiderImageUploader;
 use PrestaShop\PrestaShop\Core\Image\ImageProviderInterface;
 use PrestaShop\PrestaShop\Core\Image\Parser\ImageTagSourceParserInterface;
@@ -32,7 +33,7 @@ final class RiderImageThumbnailProvider implements ImageProviderInterface
      */
     public function getPath($riderId)
     {
-        $pathToImage = RiderImageUploader::RIDER_IMAGE_PATH . $riderId . '.jpg';
+        $pathToImage = Rider::RIDER_IMAGE_PATH . $riderId . '.jpg';
 
         $imageTag = ImageManager::thumbnail(
             $pathToImage,

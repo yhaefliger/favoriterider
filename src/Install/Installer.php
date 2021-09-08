@@ -5,7 +5,7 @@ namespace PrestaShop\Module\FavoriteRider\Install;
 
 use Db;
 use Module;
-use PrestaShop\Module\FavoriteRider\Uploader\RiderImageUploader;
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
 
 /**
  * Class Installer
@@ -23,8 +23,8 @@ class Installer
   {
     
     // create riders images repository if not present
-    if(!file_exists(RiderImageUploader::RIDER_IMAGE_PATH)){
-      mkdir(RiderImageUploader::RIDER_IMAGE_PATH, 0755);
+    if(!file_exists(Rider::RIDER_IMAGE_PATH)){
+      mkdir(Rider::RIDER_IMAGE_PATH, 0755);
     }
 
     $queries = [

@@ -2,9 +2,11 @@
 declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use PrestaShop\Module\FavoriteRider\Install\Installer;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
 
 if (!defined('_PS_VERSION_')) {
   exit;
@@ -100,13 +102,33 @@ class FavoriteRider extends Module implements WidgetInterface
    */
   public function hookDisplayHome()
   {
+    
     $this->context->controller->registerStylesheet('prestashopm.module.favoriterider.front.home', $this->_path.'public/build/front/home.css');
     
     /** @var RiderRepository $repository */
     $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
     $riders = $repository->getTopRiders(3);
 
-    $this->smarty->assign(['riders' => $riders]);
+    $presentedRiders = [];
+    
+    /** @var Rider $rider */
+    foreach ($riders as $rider) {
+      $imageUrl = $rider->getImageUrl('thumb');
+      /*if (empty($imageUrl)) {
+        $imageUrl = $this->context->link->getImageLink(
+            '',
+            $this->context->language->iso_code . '-default',
+            'home_default'
+        );
+      }*/
+
+      $presentedRiders[] = [
+        'rider' => $rider,
+        'thumb' => $imageUrl,
+      ];
+    }
+
+    $this->smarty->assign(['riders' => $presentedRiders]);
 
     return $this->fetch('module:'.$this->name.'/views/templates/front/home.tpl');
   }
@@ -126,7 +148,7 @@ class FavoriteRider extends Module implements WidgetInterface
   {
     $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
-    return $this->fetch('module:'.$this->name.'/views/templates/widget/riders.tpl');
+    return $this->fetch('module:'.$this->name.'/views/templates/front/widget/riders.tpl');
   }
   /**
    * Widget variables
@@ -141,6 +163,7 @@ class FavoriteRider extends Module implements WidgetInterface
       return [
       ];
   }
+
 
   /**
    * Return installer instance

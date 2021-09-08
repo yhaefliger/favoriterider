@@ -5,6 +5,7 @@ namespace PrestaShop\Module\FavoriteRider\Uploader;
 
 use FavoriteRider;
 use ImageManager;
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\PrestaShop\Adapter\Image\Uploader\AbstractImageUploader;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageOptimizationException;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageUploadException;
@@ -17,8 +18,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 final class RiderImageUploader extends AbstractImageUploader
 {
-
-    public const RIDER_IMAGE_PATH = _PS_IMG_DIR_.'rider/';
 
     /**
      * {@inheritdoc}
@@ -42,7 +41,7 @@ final class RiderImageUploader extends AbstractImageUploader
         }
         
         // Copy new image
-        if (!ImageManager::resize($temporaryImageName, self::RIDER_IMAGE_PATH . $riderId . '.jpg')) {
+        if (!ImageManager::resize($temporaryImageName, Rider::RIDER_IMAGE_PATH . $riderId . '.jpg')) {
             throw new ImageOptimizationException('An error occurred while uploading the image. Check your directory permissions.');
         }
         
@@ -63,7 +62,7 @@ final class RiderImageUploader extends AbstractImageUploader
     private function createThumbnail($riderId)
     {
         $resized = true;
-        $filename = self::RIDER_IMAGE_PATH . $riderId . '.jpg';
+        $filename = Rider::RIDER_IMAGE_PATH . $riderId . '.jpg';
 
         try {
             /* Generate 150x150 thumbnail */
@@ -75,8 +74,8 @@ final class RiderImageUploader extends AbstractImageUploader
                  * Squared thumb 150x150
                  */
                 $resized &= ImageManager::resize(
-                    self::RIDER_IMAGE_PATH . $riderId . '.jpg',
-                    self::RIDER_IMAGE_PATH . $riderId . '-mini.jpg',
+                    Rider::RIDER_IMAGE_PATH . $riderId . '.jpg',
+                    Rider::RIDER_IMAGE_PATH . $riderId . '-mini.jpg',
                     150,
                     150
                 );
@@ -89,8 +88,8 @@ final class RiderImageUploader extends AbstractImageUploader
                 $widthThumb = ($heightThumb * $widthOrig) / $heightOrig;
 
                  $resized &= ImageManager::resize(
-                    self::RIDER_IMAGE_PATH . $riderId . '.jpg',
-                    self::RIDER_IMAGE_PATH . $riderId . '-thumb.jpg',
+                    Rider::RIDER_IMAGE_PATH . $riderId . '.jpg',
+                    Rider::RIDER_IMAGE_PATH . $riderId . '-thumb.jpg',
                     $widthThumb,
                     $heightThumb
                 );

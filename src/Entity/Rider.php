@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace PrestaShop\Module\FavoriteRider\Entity;
 
+use Context;
 use Doctrine\ORM\Mapping as ORM;
+use Link;
 
 /**
  * @ORM\Table()
@@ -11,6 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rider
 {
+    /**
+     * Rider image path
+     */
+    public const RIDER_IMAGE_PATH = _PS_IMG_DIR_.'rider/';
 
     /**
      * @var int
@@ -125,8 +131,35 @@ class Rider
      *
      * @param  int  $votes  Number of votes
      */ 
-    public function setVotes($votes): void
+    public function setVotes(int $votes): void
     {
         $this->votes = $votes;
+    }
+
+    /**
+     * Get Rider image path
+     *
+     * @param sring $size (mini, thumb, default)
+     * 
+     * @return string
+     */
+    public function getImageUrl(string $size = 'default'): string
+    {
+        if (in_array($size, ['mini', 'thumb'])) {
+            $image_name = $this->getId() . '-' . $size . '.jpg';
+        } else {
+            $image_name = $this->getId() . '.jpg';
+        }
+        
+        $image_path = implode(DIRECTORY_SEPARATOR, [
+            rtrim(self::RIDER_IMAGE_PATH, DIRECTORY_SEPARATOR),
+            $image_name
+        ]);
+        
+        if (file_exists($image_path)) {
+            return __PS_BASE_URI__ . 'img/rider/' . $image_name;
+        }
+
+        return '';
     }
 }
