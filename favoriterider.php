@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
-use PrestaShop\Module\FavoriteRider\Uploader\RiderImageUploader;
-use PrestaShop\Module\FavoriteRider\Utils\Installer;
+use PrestaShop\Module\FavoriteRider\Install\Installer;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 if (!defined('_PS_VERSION_')) {
@@ -69,19 +68,7 @@ class FavoriteRider extends Module implements WidgetInterface
   {
     $installer = $this->getInstaller();
     
-    if(!file_exists(RiderImageUploader::RIDER_IMAGE_PATH)){
-      mkdir(RiderImageUploader::RIDER_IMAGE_PATH, 0755);
-    }
-
-    if(!$installer->install($this) || !parent::install()){
-      return false;
-    }
-    
-    if(!$this->registerHook('displayHome')){
-      return false;
-    }
-    
-    return true;
+    return parent::install() && $installer->install($this);
   }
 
   /**
@@ -124,19 +111,34 @@ class FavoriteRider extends Module implements WidgetInterface
     return $this->fetch('module:'.$this->name.'/views/templates/front/home.tpl');
   }
 
+  /**
+   * TODO: widget to display on any template the list of all riders
+   * 
+   * <!-- smarty generic call -->
+   * {widget name='favoriterider'}
+   * 
+   * @param string $hookName
+   * @param array $configuration
+   * 
+   * @return string templating result
+   */
   public function renderWidget($hookName, array $configuration) 
   {
     $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
-    return $this->fetch('module:'.$this->name.'/views/templates/widget/mymodule.tpl');
+    return $this->fetch('module:'.$this->name.'/views/templates/widget/riders.tpl');
   }
-
+  /**
+   * Widget variables
+   *
+   * @param string $hookName
+   * @param array $configuration
+   * 
+   * @return array
+   */
   public function getWidgetVariables($hookName , array $configuration)
   {
-      $myParamKey = $configuration['my_param_key'] ?? null;
-      
       return [
-          'my_var1' => 'my_var1_value',
       ];
   }
 

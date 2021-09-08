@@ -24,5 +24,6 @@ npm run watch
 ### Production builds
 ```
 composer install --no-dev --optimize-autoloader
+npm install
 npm run build
 ```

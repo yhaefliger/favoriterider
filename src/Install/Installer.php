@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace PrestaShop\Module\FavoriteRider\Utils;
+namespace PrestaShop\Module\FavoriteRider\Install;
 
 use Db;
 use Module;
+use PrestaShop\Module\FavoriteRider\Uploader\RiderImageUploader;
 
 /**
  * Class Installer
@@ -20,6 +21,12 @@ class Installer
    */
   public function install(Module $module): bool
   {
+    
+    // create riders images repository if not present
+    if(!file_exists(RiderImageUploader::RIDER_IMAGE_PATH)){
+      mkdir(RiderImageUploader::RIDER_IMAGE_PATH, 0755);
+    }
+
     $queries = [
       'CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'rider` (
         `id_rider` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -32,11 +39,7 @@ class Installer
       ) ENGINE=' . pSQL(_MYSQL_ENGINE_) . ' COLLATE=utf8_unicode_ci;'
     ];
     
-    if(!$this->executeQueries($queries)){
-      return false;
-    }
-
-    return true;
+    return $this->executeQueries($queries) && $this->registerHooks($module);
   }
 
   /**
@@ -53,22 +56,37 @@ class Installer
     return $this->executeQueries($queries);
   }
 
-   /**
-     * A helper that executes multiple database queries.
-     *
-     * @param array $queries
-     *
-     * @return bool
-     */
-    private function executeQueries(array $queries): bool
-    {
-        foreach ($queries as $query) {
-            if (!Db::getInstance()->execute($query)) {
-                return false;
-            }
-        }
-
-        return true;
+  /**
+   * A helper that executes multiple database queries.
+   *
+   * @param array $queries
+   *
+   * @return bool
+   */
+  private function executeQueries(array $queries): bool
+  {
+    foreach ($queries as $query) {
+      if (!Db::getInstance()->execute($query)) {
+        return false;
+      }
     }
+
+    return true;
+  }
+
+  /**
+   * Register module hooks
+   *
+   * @param Module $module
+   * @return boolean
+   */
+  private function registerHooks(Module $module): bool
+  {
+    $hooks = [
+      'displayHome'
+    ];
+
+    return $module->registerHook($hooks);
+  }
 
 }
