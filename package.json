@@ -1,32 +1,38 @@
 {
-  "name": "favoriterider",
-  "version": "1.0.0",
-  "description": "Test PrestaShop module developement (V1.7)",
-  "author": "Yann Haefliger",
-  "devDependencies": {
-    "@symfony/webpack-encore": "^1.6.1",
-    "autoprefixer": "^10.3.4",
-    "postcss-loader": "^6.1.1",
-    "sass": "^1.39.0",
-    "sass-loader": "^12.1.0",
-    "webpack-notifier": "^1.13.0"
-  },
-  "scripts": {
-    "dev-server": "encore dev-server",
-    "dev": "encore dev",
-    "watch": "encore dev --watch",
-    "build": "encore production --progress"
-  },
-  "babel": {
-    "presets": [
-      "@babel/env"
-    ]
-  },
-  "browserslist": [
-    "IE 10",
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead"
-  ]
+    "name": "favoriterider",
+    "version": "1.0.0",
+    "description": "Test PrestaShop module developement (V1.7)",
+    "author": "Yann Haefliger",
+    "devDependencies": {
+        "@symfony/webpack-encore": "^1.6.1",
+        "autoprefixer": "^10.3.4",
+        "postcss-loader": "^6.1.1",
+        "sass": "^1.39.0",
+        "sass-loader": "^12.1.0",
+        "slick-carousel": "^1.8.1",
+        "webpack-notifier": "^1.13.0"
+    },
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress",
+        "front-watch": "encore dev --watch --config-name frontConfig",
+        "front-build": "encore production --progress --config-name frontConfig",
+        "admin-watch": "encore dev --watch --config-name adminConfig",
+        "admin-build": "encore production --progress --config-name adminConfig"
+    },
+    "babel": {
+        "presets": [
+            "@babel/env"
+        ]
+    },
+    "browserslist": [
+        "IE 10",
+        "> 0.5%",
+        "last 2 versions",
+        "Firefox ESR",
+        "not dead"
+    ],
+    "license": "AFL-3.0"
 }

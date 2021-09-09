@@ -1,3 +1,4 @@
+<?php
 /**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
@@ -22,9 +23,29 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
-module.exports = {
-    plugins: {
-        // add browserslist config to package.json (see below)
-        autoprefixer: { }
-    }
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\FavoriteRider\Presenter;
+
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
+use PrestaShop\PrestaShop\Core\Foundation\Templating\PresenterInterface;
+
+class RiderPresenter implements PresenterInterface
+{
+
+  /**
+   * Return array of formatted rider fields for template
+   *
+   * @param Rider $rider
+   * @return array
+   */
+  public function present($rider): array
+  {
+    return [
+      'name' => $rider->getName(),
+      'discipline' => $rider->getDiscipline(),
+      'votes' => (int) $rider->getVotes(),
+    ];
+  }  
 }

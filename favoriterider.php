@@ -1,12 +1,37 @@
 <?php
+/**
+ * Copyright since 2007 PrestaShop SA and Contributors
+ * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License 3.0 (AFL-3.0)
+ * that is bundled with this package in the file LICENSE.md.
+ * It is also available through the world-wide-web at this URL:
+ * https://opensource.org/licenses/AFL-3.0
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to https://devdocs.prestashop.com/ for more information.
+ *
+ * @author    PrestaShop SA and Contributors <contact@prestashop.com>
+ * @copyright Since 2007 PrestaShop SA and Contributors
+ * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
+ */
+
 declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
 use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use PrestaShop\Module\FavoriteRider\Install\Installer;
+use PrestaShop\Module\FavoriteRider\Presenter\RiderPresenter;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
-use PrestaShop\PrestaShop\Adapter\Presenter\Object\ObjectPresenter;
 
 if (!defined('_PS_VERSION_')) {
   exit;
@@ -19,6 +44,12 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
 class FavoriteRider extends Module implements WidgetInterface
 {
 
+  /**
+   * Public assets path
+   *
+   * @var string
+   */
+  protected $assetsPath;
 
   public function __construct()
   {
@@ -49,6 +80,8 @@ class FavoriteRider extends Module implements WidgetInterface
         'icon' => 'snowboarding'
       ]
     ];
+
+    $this->assetsPath =  $this->_path.'public/build/';
   }
 
   /**
@@ -103,35 +136,37 @@ class FavoriteRider extends Module implements WidgetInterface
   public function hookDisplayHome()
   {
     
-    $this->context->controller->registerStylesheet('prestashopm.module.favoriterider.front.home', $this->_path.'public/build/front/home.css');
-    
-    /** @var RiderRepository $repository */
-    $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
+    $this->context->controller->registerStylesheet('favoriterider-home-styles', $this->assetsPath.'front/home.css');
+
+    $repository = $this->getRepository();
     $riders = $repository->getTopRiders(3);
 
+    $presenter = new RiderPresenter();
+
     $presentedRiders = [];
-    
     /** @var Rider $rider */
     foreach ($riders as $rider) {
       $imageUrl = $rider->getImageUrl('thumb');
-      /*if (empty($imageUrl)) {
-        $imageUrl = $this->context->link->getImageLink(
-            '',
-            $this->context->language->iso_code . '-default',
-            'home_default'
-        );
-      }*/
-
-      $presentedRiders[] = [
-        'rider' => $rider,
-        'thumb' => $imageUrl,
-      ];
+      array_push($presentedRiders, array_merge($presenter->present($rider), [ 'image' => $imageUrl ]));
     }
 
     $this->smarty->assign(['riders' => $presentedRiders]);
 
     return $this->fetch('module:'.$this->name.'/views/templates/front/home.tpl');
   }
+
+  /**
+   * Header styles & scripts
+   */
+  public function hookDisplayHeader($params)
+  {
+    if ($this->context->controller instanceof CmsController) {
+      //riders wiget assets
+      $this->context->controller->registerStylesheet('favoriterider-widget-riders', $this->assetsPath.'front/widget/riders.css');
+      $this->context->controller->registerJavascript('favoriterider-widget-riders', $this->assetsPath.'front/widget/riders.js', ['position' => 'bottom', 'priority' => 2000]);
+    }
+  }
+
 
   /**
    * TODO: widget to display on any template the list of all riders
@@ -146,6 +181,7 @@ class FavoriteRider extends Module implements WidgetInterface
    */
   public function renderWidget($hookName, array $configuration) 
   {
+
     $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
 
     return $this->fetch('module:'.$this->name.'/views/templates/front/widget/riders.tpl');
@@ -160,17 +196,30 @@ class FavoriteRider extends Module implements WidgetInterface
    */
   public function getWidgetVariables($hookName , array $configuration)
   {
-      return [
-      ];
+    //retrieve riders
+    $repository = $this->getRepository();
+    $riders = $repository->getAll();
+
+    return [
+    ];
   }
 
+  /**
+   * Retrieve riders repository
+   *
+   * @return RiderRepository
+   */
+  private function getRepository(): RiderRepository
+  {
+    return $this->get('prestashop.module.favoriterider.repository.rider_repository');
+  }
 
   /**
    * Return installer instance
    *
    * @return Installer
    */
-  private function getInstaller()
+  private function getInstaller(): Installer
   {
     return new Installer();
   }
