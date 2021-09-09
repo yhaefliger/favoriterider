@@ -198,9 +198,24 @@ class FavoriteRider extends Module implements WidgetInterface
 
     $presenter = new RiderPresenter();
     
-    return array_map(function ($rider) use($presenter) {
+    $presentedRiders = array_map(function ($rider) use($presenter) {
       return $presenter->present($rider);
     }, $riders);
+
+    //assign riders position by number of votes
+    $sortedRiders = $presentedRiders;
+    uasort($sortedRiders, function($a, $b) {
+      return $a['votes'] < $b['votes'];
+    });
+    $position = 1;
+    foreach(array_keys($sortedRiders) as $key) {
+      $presentedRiders[$key]['position'] = $position;
+      $position++;
+    }
+
+    return [
+      'riders' => $presentedRiders,
+    ];
   }
 
   /**

@@ -23,9 +23,18 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  *}
  <div class="riders-widget">
+  <div class="riders-thumbs row">
+    {foreach $riders as $rider}
+      <div class="rider col-sm-3" data-index="{$rider@index}">
+        <img src="{$rider.image.sm}" class="img-fluid" />
+      </div>
+    {/foreach}
+  </div>
   <div class="riders-carousel">
-    <div>your content</div>
-    <div>your content</div>
-    <div>your content</div>
+    {foreach $riders as $rider}
+      <div>
+        <img src="{$rider.image.xl}" class="img-fluid" />
+      </div>
+    {/foreach}
   </div>
  </div>
