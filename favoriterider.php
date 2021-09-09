@@ -138,17 +138,13 @@ class FavoriteRider extends Module implements WidgetInterface
     
     $this->context->controller->registerStylesheet('favoriterider-home-styles', $this->assetsPath.'front/home.css');
 
-    $repository = $this->getRepository();
-    $riders = $repository->getTopRiders(3);
+    $ridersRepository = $this->getRepository();
+    $riders = $ridersRepository->getTopRiders(3);
 
     $presenter = new RiderPresenter();
-
-    $presentedRiders = [];
-    /** @var Rider $rider */
-    foreach ($riders as $rider) {
-      $imageUrl = $rider->getImageUrl('thumb');
-      array_push($presentedRiders, array_merge($presenter->present($rider), [ 'image' => $imageUrl ]));
-    }
+    $presentedRiders = array_map(function ($rider) use($presenter) {
+      return $presenter->present($rider, 'lg');
+    }, $riders);
 
     $this->smarty->assign(['riders' => $presentedRiders]);
 
@@ -197,11 +193,14 @@ class FavoriteRider extends Module implements WidgetInterface
   public function getWidgetVariables($hookName , array $configuration)
   {
     //retrieve riders
-    $repository = $this->getRepository();
-    $riders = $repository->getAll();
+    $ridersRepository = $this->getRepository();
+    $riders = $ridersRepository->getAll();
 
-    return [
-    ];
+    $presenter = new RiderPresenter();
+    
+    return array_map(function ($rider) use($presenter) {
+      return $presenter->present($rider);
+    }, $riders);
   }
 
   /**

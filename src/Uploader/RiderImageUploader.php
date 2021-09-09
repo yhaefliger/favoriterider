@@ -65,7 +65,7 @@ final class RiderImageUploader extends AbstractImageUploader
         }
         
         // Copy new image
-        if (!ImageManager::resize($temporaryImageName, Rider::RIDER_IMAGE_PATH . $riderId . '.jpg')) {
+        if (!ImageManager::resize($temporaryImageName, Rider::IMAGE_PATH . $riderId . '.jpg')) {
             throw new ImageOptimizationException('An error occurred while uploading the image. Check your directory permissions.');
         }
         
@@ -83,10 +83,10 @@ final class RiderImageUploader extends AbstractImageUploader
      * @param string $original
      * @return bool
      */
-    private function createThumbnail($riderId)
+    private function createThumbnail($riderId): bool
     {
         $resized = true;
-        $filename = Rider::RIDER_IMAGE_PATH . $riderId . '.jpg';
+        $filename = Rider::IMAGE_PATH . $riderId . '.jpg';
 
         try {
             /* Generate 150x150 thumbnail */
@@ -98,26 +98,28 @@ final class RiderImageUploader extends AbstractImageUploader
                  * Squared thumb 150x150
                  */
                 $resized &= ImageManager::resize(
-                    Rider::RIDER_IMAGE_PATH . $riderId . '.jpg',
-                    Rider::RIDER_IMAGE_PATH . $riderId . '-mini.jpg',
+                    Rider::IMAGE_PATH . $riderId . '.jpg',
+                    Rider::IMAGE_PATH . $riderId . '-mini.jpg',
                     150,
                     150
                 );
 
                 /**
-                 * Same proportions but 300 height thumb
+                 * Same proportions height based thumbs
                  */
-                $heightThumb = 300;
-                list($widthOrig, $heightOrig) = getimagesize($filename);
-                $widthThumb = ($heightThumb * $widthOrig) / $heightOrig;
-
-                 $resized &= ImageManager::resize(
-                    Rider::RIDER_IMAGE_PATH . $riderId . '.jpg',
-                    Rider::RIDER_IMAGE_PATH . $riderId . '-thumb.jpg',
-                    $widthThumb,
-                    $heightThumb
-                );
+                foreach (Rider::IMAGE_SIZES as $thumbName => $heightThumb) {
+                    list($widthOrig, $heightOrig) = getimagesize($filename);
+                    $widthThumb = ($heightThumb * $widthOrig) / $heightOrig;
+    
+                     $resized &= ImageManager::resize(
+                        Rider::IMAGE_PATH . $riderId . '.jpg',
+                        Rider::IMAGE_PATH . $riderId . '-'.$thumbName.'.jpg',
+                        $widthThumb,
+                        $heightThumb
+                    );
+                }
                 
+                return true;
             }
         } catch (PrestaShopException $e) {
             throw new ImageOptimizationException('Unable to resize picture.');

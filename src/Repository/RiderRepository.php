@@ -50,6 +50,6 @@ class RiderRepository extends EntityRepository
      */
     public function getAll()
     {
-        return $this->findBy([], ['name', 'ASC']);
+        return $this->findBy([], ['name' => 'ASC']);
     }
 }

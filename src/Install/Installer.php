@@ -48,8 +48,8 @@ class Installer
   {
     
     // create riders images repository if not present
-    if(!file_exists(Rider::RIDER_IMAGE_PATH)){
-      mkdir(Rider::RIDER_IMAGE_PATH, 0755);
+    if(!file_exists(Rider::IMAGE_PATH)){
+      mkdir(Rider::IMAGE_PATH, 0755);
     }
 
     $queries = [

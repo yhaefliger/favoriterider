@@ -38,14 +38,24 @@ class RiderPresenter implements PresenterInterface
    * Return array of formatted rider fields for template
    *
    * @param Rider $rider
+   * @param bool|string $images specific image size or all images / none
+   * 
    * @return array
    */
-  public function present($rider): array
+  public function present($rider, $images = true): array
   {
-    return [
+    $data = [
       'name' => $rider->getName(),
       'discipline' => $rider->getDiscipline(),
       'votes' => (int) $rider->getVotes(),
     ];
+
+    if (true === $images) {
+      $data['image'] = $rider->getAllImages();
+    } elseif (is_string($images)) {
+      $data['image'] = $rider->getImageUrl($images);
+    }
+
+    return $data;
   }  
 }

@@ -39,7 +39,17 @@ class Rider
     /**
      * Rider image path
      */
-    public const RIDER_IMAGE_PATH = _PS_IMG_DIR_.'rider/';
+    public const IMAGE_PATH = _PS_IMG_DIR_.'rider/';
+
+    /**
+     * Rider images sizes generated
+     */
+    public const IMAGE_SIZES = [
+        'sm' => 60,
+        'md' => 120,
+        'lg' => 240,
+        'xl' => 500,
+    ];
 
     /**
      * @var int
@@ -168,14 +178,14 @@ class Rider
      */
     public function getImageUrl(string $size = 'default'): string
     {
-        if (in_array($size, ['mini', 'thumb'])) {
+        if (in_array($size, self::IMAGE_SIZES)) {
             $image_name = $this->getId() . '-' . $size . '.jpg';
         } else {
             $image_name = $this->getId() . '.jpg';
         }
         
         $image_path = implode(DIRECTORY_SEPARATOR, [
-            rtrim(self::RIDER_IMAGE_PATH, DIRECTORY_SEPARATOR),
+            rtrim(self::IMAGE_PATH, DIRECTORY_SEPARATOR),
             $image_name
         ]);
         
@@ -184,5 +194,22 @@ class Rider
         }
 
         return '';
+    }
+
+    /**
+     * Return array of all images size
+     *
+     * @return array
+     */
+    public function getAllImages(): array
+    {
+        $images = [];
+        
+        foreach (array_keys(Rider::IMAGE_SIZES) as $size) {
+            $images[$size] = $this->getImageUrl($size);
+        }
+        $images['default'] = $this->getImageUrl();
+
+        return $images;
     }
 }

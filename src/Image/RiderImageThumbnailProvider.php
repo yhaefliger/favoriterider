@@ -57,7 +57,7 @@ final class RiderImageThumbnailProvider implements ImageProviderInterface
      */
     public function getPath($riderId)
     {
-        $pathToImage = Rider::RIDER_IMAGE_PATH . $riderId . '.jpg';
+        $pathToImage = Rider::IMAGE_PATH . $riderId . '.jpg';
 
         $imageTag = ImageManager::thumbnail(
             $pathToImage,
