@@ -20,7 +20,7 @@
                 height: 150px;
                 border: 8px solid #000;
                 background-size:cover;
-                background-position:10% 0;
+                background-position: base.$cropPosition;
                 position: relative;
                 .badge{
                     position:absolute;
@@ -83,6 +83,9 @@
                 }
             }
         }
+    }
+    .cta-link {
+        margin: 1.5rem 0;
     }
 }
 

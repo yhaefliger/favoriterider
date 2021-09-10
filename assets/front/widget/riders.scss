@@ -1,6 +1,57 @@
 @use '../../base';
 
 .riders-widget {
+  margin:2rem auto;
+  .riders-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem -0.2rem;
+    
+    .rider-thumb {
+      padding:0.2rem;
+      .rider-thumb-btn{
+        appearance: none;
+        border: none;
+        background: none;
+        cursor: pointer;
+        &:hover {
+          .thumb{
+            box-shadow: 0 0 5px 3px transparentize($color: #000000, $amount: 0.8);
+            opacity: 0.8;
+          }
+        }
+        &:focus {
+          outline: none;
+          .thumb {
+            box-shadow: 0 0 5px 3px transparentize($color: base.$mainColor, $amount: 0.5);
+            opacity: 0.8;
+          }
+        }
+      }
+      .thumb {
+        opacity: 0.5;
+        border:5px solid transparent;
+        transition: box-shadow 0.5s ease-out;
+        width:90px;
+        height:90px;
+        object-fit: cover;
+        object-position: base.$cropPosition;
+        border-radius: 50%;
+      }
+      &.current .thumb {
+        opacity: 1;
+        border-color: base.$mainColor;
+      }
+      &.pos-1 {
+        
+      }
+      &.pos-2 {
+
+      }
+      &.pos-3 {
+      }
+    }
+  }
   .riders-carousel {
     
   }

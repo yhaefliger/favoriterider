@@ -1,4 +1,5 @@
-{**
+<?php
+/**
  * Copyright since 2007 PrestaShop SA and Contributors
  * PrestaShop is an International Registered Trademark & Property of PrestaShop SA
  *
@@ -21,22 +22,12 @@
  * @author    PrestaShop SA and Contributors <contact@prestashop.com>
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
- *}
- <div class="riders-widget">
-  <div class="riders-thumbs" id="ridersThumb" data-init="{$current}">
-    {foreach $riders as $rider}
-      <div class="rider-thumb pos-{$rider.position} {if $current == $rider@index}current{/if}" id="riderThumb-{$rider@index}">
-        <button class="rider-thumb-btn" data-index="{$rider@index}" aria-label="Show {$rider.name}">
-          <img src="{$rider.image.md}" class="thumb" alt="{$rider.name} Thumb" width="90" height="90" />
-        </button>
-      </div>
-    {/foreach}
-  </div>
-  <div class="riders-carousel" id="ridersCarousel" style="display:none;">
-    {foreach $riders as $rider}
-      <div >
-        <img src="{$rider.image.xl}" class="img-fluid" />
-      </div>
-    {/foreach}
-  </div>
- </div>
+ */
+
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Location: ../');
+exit;

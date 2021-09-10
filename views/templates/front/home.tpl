@@ -40,4 +40,9 @@
             </div>
         {/foreach}
     </div>
+    {if $link}
+    <div class="cta-link ">
+        <a class="btn btn-primary" href="{$link}">Votez pour votre rider préféré!</a>
+    </div>
+    {/if}
 </div>

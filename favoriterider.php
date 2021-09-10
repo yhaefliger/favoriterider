@@ -27,11 +27,10 @@
 declare(strict_types=1);
 
 use PrestaShop\Module\FavoriteRider\Controller\Admin\RidersController;
-use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use PrestaShop\Module\FavoriteRider\Install\Installer;
 use PrestaShop\Module\FavoriteRider\Presenter\RiderPresenter;
-use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use PrestaShop\PrestaShop\Adapter\CMS\CMSDataProvider;
 
 if (!defined('_PS_VERSION_')) {
   exit;
@@ -41,7 +40,7 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) {
   require_once __DIR__.'/vendor/autoload.php';
 }
 
-class FavoriteRider extends Module implements WidgetInterface
+class FavoriteRider extends Module
 {
 
   /**
@@ -63,8 +62,8 @@ class FavoriteRider extends Module implements WidgetInterface
 
     parent::__construct();
 
-    $this->displayName = $this->l('Favorite Rider');
-    $this->description = $this->l('Let visitors vote for their favorite rider!');
+    $this->displayName = $this->trans('Favorite Rider', [], 'Modules.FavoriteRider.Admin');
+    $this->description = $this->trans('Let visitors vote for their favorite rider!', [], 'Modules.FavoriteRider.Admin');
     
     $tabNames = [];
     foreach (Language::getLanguages(true) as $lang) {
@@ -119,13 +118,85 @@ class FavoriteRider extends Module implements WidgetInterface
   }
 
   /**
-   * Redirect to riders manage page on module config show
+   * Display and process admin configuration page
+   * @return string 
    */
   public function getContent()
   {
-    Tools::redirectAdmin(
-      $this->context->link->getAdminLink('AdminRidersController')
-    );
+    $output = '';
+
+    $cmsDataProvider = New CMSDataProvider();
+    $pages = $cmsDataProvider->getCMSChoices($this->context->language->id);
+    
+    if (Tools::isSubmit('submit' . $this->name)) {
+      $cmsPageId = Tools::getValue('FAVORITERIDER_CMS_PAGE_ID');
+      if ($cmsPageId && !empty($cmsPageId)) {
+        if (!in_array($cmsPageId, $pages)) { 
+          $output = $this->displayError($this->trans('Invalid cms page', [], 'Modules.FavoriteRider.Admin'));
+        } else {
+          Configuration::updateValue('FAVORITERIDER_CMS_PAGE_ID', $cmsPageId);
+          $output = $this->displayConfirmation($this->trans('The settings have been updated.', [], 'Admin.Notifications.Success'));
+        }
+      }
+    }
+
+    return $output . $this->displayForm($pages);
+  }
+
+  /**
+   * Admin module configuration form
+   * 
+   * @param array $pages Choices Pages
+   * 
+   * @return string
+   */
+  public function displayForm(array $pages)
+  {
+    $pagesOptions = [];
+    foreach ($pages as $name => $id) {
+      $pagesOptions[] = [
+        'id' => $id,
+        'name' => $name,
+      ];
+    }
+
+    $form = [
+      'form' => [
+        'legend' => [
+          'title' => $this->trans('Settings', [], 'Admin.Global'),
+        ],
+        'input' => [
+          [
+            'type' => 'select',
+            'label' => $this->trans('CMS Page', [], 'Modules.FavoriteRider.Admin'),
+            'desc' => $this->trans('Page on which the widget will be rendered', [], 'Modules.FavoriteRider.Admin'),
+            'name' => 'FAVORITERIDER_CMS_PAGE_ID',
+            'required' => false,
+            'options' => [
+              'query' => $pagesOptions,
+              'id' => 'id',
+              'name' => 'name',
+            ]
+          ],
+        ],
+        'submit' => [
+          'title' => $this->trans('Save', [], 'Admin.Global'),  
+        ],
+      ],
+    ];
+
+    $helper = new HelperForm();
+    $helper->table = $this->table;
+    $helper->name_controller = $this->name;
+    $helper->token = Tools::getAdminTokenLite('AdminModules');
+    $helper->currentIndex = AdminController::$currentIndex . '&' . http_build_query(['configure' => $this->name]);
+    $helper->submit_action = 'submit' . $this->name;
+    $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
+    $helper->show_toolbar = false;
+
+    $helper->fields_value['FAVORITERIDER_CMS_PAGE_ID'] = Tools::getValue('FAVORITERIDER_CMS_PAGE_ID', Configuration::get('FAVORITERIDER_CMS_PAGE_ID'));
+
+    return $helper->generateForm([$form]);
   }
 
   /**
@@ -145,8 +216,19 @@ class FavoriteRider extends Module implements WidgetInterface
     $presentedRiders = array_map(function ($rider) use($presenter) {
       return $presenter->present($rider, 'lg');
     }, $riders);
+    
+    //link to vote page
+    $cmsPageId = (int) Configuration::get('FAVORITERIDER_CMS_PAGE_ID');
+    if ($cmsPageId && $cmsPageId > 0) {
+      $link = $this->context->link->getCMSLink($cmsPageId);
+    } else {
+      $link = false;
+    }
 
-    $this->smarty->assign(['riders' => $presentedRiders]);
+    $this->smarty->assign([
+      'riders'  => $presentedRiders,
+      'link'    => $link,
+    ]);
 
     return $this->fetch('module:'.$this->name.'/views/templates/front/home.tpl');
   }
@@ -156,42 +238,34 @@ class FavoriteRider extends Module implements WidgetInterface
    */
   public function hookDisplayHeader($params)
   {
-    if ($this->context->controller instanceof CmsController) {
+    if ($this->displayWidget()) {
       //riders wiget assets
       $this->context->controller->registerStylesheet('favoriterider-widget-riders', $this->assetsPath.'front/widget/riders.css');
       $this->context->controller->registerJavascript('favoriterider-widget-riders', $this->assetsPath.'front/widget/riders.js', ['position' => 'bottom', 'priority' => 2000]);
     }
   }
 
-
   /**
-   * TODO: widget to display on any template the list of all riders
-   * 
-   * <!-- smarty generic call -->
-   * {widget name='favoriterider'}
-   * 
-   * @param string $hookName
-   * @param array $configuration
-   * 
-   * @return string templating result
-   */
-  public function renderWidget($hookName, array $configuration) 
-  {
-
-    $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
-
-    return $this->fetch('module:'.$this->name.'/views/templates/front/widget/riders.tpl');
-  }
-  /**
-   * Widget variables
+   * Page content hook
    *
-   * @param string $hookName
-   * @param array $configuration
-   * 
-   * @return array
+   * @param array $params
+   * @return void
    */
-  public function getWidgetVariables($hookName , array $configuration)
+  public function hookDisplayContentWrapperBottom($params) 
   {
+    if ($this->displayWidget()) {
+      $this->smarty->assign($this->getRidersWidgetVariables());
+      return $this->fetch('module:'.$this->name.'/views/templates/front/widget/riders.tpl');
+    }
+    
+  }
+
+  /**
+   * Get riders widget data
+   *
+   * @return array data
+   */
+  public function getRidersWidgetVariables() {
     //retrieve riders
     $ridersRepository = $this->getRepository();
     $riders = $ridersRepository->getAll();
@@ -215,7 +289,26 @@ class FavoriteRider extends Module implements WidgetInterface
 
     return [
       'riders' => $presentedRiders,
+      'current' => 2,
     ];
+  }
+
+  /**
+   * Test if the widget should be displayed
+   *
+   * @return boolean
+   */
+  private function displayWidget(): bool
+  {
+    //check current controller CMS and page id from module configuration
+    if ($this->context->controller instanceof CmsController) {
+      $cmsPageId = (int) Configuration::get('FAVORITERIDER_CMS_PAGE_ID');
+      if($cmsPageId && $this->context->controller->cms->id === $cmsPageId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**

@@ -178,7 +178,7 @@ class Rider
      */
     public function getImageUrl(string $size = 'default'): string
     {
-        if (in_array($size, self::IMAGE_SIZES)) {
+        if (isset(self::IMAGE_SIZES[$size])) {
             $image_name = $this->getId() . '-' . $size . '.jpg';
         } else {
             $image_name = $this->getId() . '.jpg';

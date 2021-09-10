@@ -29,7 +29,26 @@ import 'slick-carousel/slick/slick-theme.scss';
 import './riders.scss';
 
 $(() => {
-  $('.riders-carousel').slick({
-    
+  let carousel = $('.riders-carousel');
+  var init = $('#ridersThumb').data('init');
+
+  carousel.on('init', function(event, slick) {
+    $('#ridersCarousel').show();
+  });
+
+  carousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+    $('.rider-thumb').removeClass('current');
+    $('#riderThumb-' + nextSlide).addClass('current');
+  });
+
+  carousel.slick({
+    fade: true,
+    initialSlide: init,
+  });
+  
+
+  $('.rider-thumb-btn').on('click', function(e) {
+    const index = parseInt($(this).data('index'));
+    carousel.slick('slickGoTo', index);
   });
 });

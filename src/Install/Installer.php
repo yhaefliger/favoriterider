@@ -110,7 +110,7 @@ class Installer
     $hooks = [
       'displayHome',
       'displayHeader',
-      'displayRidersContent',
+      'displayContentWrapperBottom',
     ];
 
     return $module->registerHook($hooks);
