@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="rider-info">
-                    <h3 class="rirder-name">{$rider.name}</h3>
-                    <div class="rirder-discipline">{$rider.discipline}</div>
+                    <h3 class="rider-name">{$rider.name}</h3>
+                    <div class="rider-discipline">{$rider.discipline}</div>
                 </div>
             </div>
         {/foreach}

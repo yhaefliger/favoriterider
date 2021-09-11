@@ -23,6 +23,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 const path = require('path');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -73,6 +74,20 @@ Encore
 ;
 
 const frontConfig = Encore.getWebpackConfig();
+frontConfig.plugins.push(
+    new BrowserSyncPlugin(
+        {
+            proxy: 'prestadev.local',
+            files: [
+                {
+                    match: ['public/build/front/**/*.js', 'public/build/front/**/*.css', 'views/templates/front/**/*.tpl'],
+                }
+            ]
+        },{
+            reload: false
+        }
+    )
+);
 frontConfig.name = 'frontConfig';
 
 module.exports = [adminConfig, frontConfig];

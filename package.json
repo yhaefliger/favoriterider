@@ -6,6 +6,8 @@
     "devDependencies": {
         "@symfony/webpack-encore": "^1.6.1",
         "autoprefixer": "^10.3.4",
+        "browser-sync": "^2.27.5",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "postcss-loader": "^6.1.1",
         "sass": "^1.39.0",
         "sass-loader": "^12.1.0",

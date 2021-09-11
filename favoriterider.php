@@ -287,9 +287,16 @@ class FavoriteRider extends Module
       $position++;
     }
 
+    //vote controller link
+    $voteUrl = $this->context->link->getModuleLink(
+      'favoriterider',
+      'PostVote'
+    );
+
     return [
       'riders' => $presentedRiders,
-      'current' => 2,
+      'current' => 1, //TODO: get voted / specific rider from url param
+      'voteUrl' => $voteUrl,
     ];
   }
 

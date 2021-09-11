@@ -34,8 +34,14 @@
   </div>
   <div class="riders-carousel" id="ridersCarousel" style="display:none;">
     {foreach $riders as $rider}
-      <div >
+      <div class="relative rider-carousel-item">
         <img src="{$rider.image.xl}" class="img-fluid" />
+        <div class="rider-info">
+          <div class="wrapper">
+            <h3>{$rider.name}</h3>
+            <div class="rider-discipline">{$rider.discipline}</div>
+          </div>
+        </div>
       </div>
     {/foreach}
   </div>
