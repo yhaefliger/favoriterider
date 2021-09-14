@@ -15,7 +15,7 @@ widget or hook ? to integrate the rendered component on any PrestaShop cms page
 PHP 7.3 / Node.js v12
 
 ### Local dev
-```
+```sh
 composer install
 npm install
 npm run watch
@@ -27,7 +27,7 @@ proxy: 'prestadev.local',
 ```
 
 Sample vscode workspace configuration
-```
+```json
 {
 	"folders": [
 		{
@@ -75,7 +75,7 @@ Sample vscode workspace configuration
 ```
 
 ### Production builds
-```
+```sh
 composer install --no-dev --optimize-autoloader
 npm install
 npm run build
