@@ -31,7 +31,6 @@ Sample vscode workspace configuration
 {
 	"folders": [
 		{
-			//path to your root prestashop folder
 			"path": "/var/www/html/prestadev"
 		}
 	],
