@@ -55,9 +55,9 @@ class FavoriteRider extends Module
         $this->version = '1.0.0';
         $this->author = 'Yann Haefliger';
         $this->ps_versions_compliancy = [
-      'min' => '1.7.7.0',
-      'max' => _PS_VERSION_,
-    ];
+            'min' => '1.7.7.0',
+            'max' => _PS_VERSION_,
+        ];
 
         parent::__construct();
 
@@ -69,15 +69,15 @@ class FavoriteRider extends Module
             $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.Favoriterider.Admin', $lang['locale']);
         }
         $this->tabs = [
-      [
-        'route_name' => 'admin_favoriterider_riders_index',
-        'class_name' => RidersController::TAB_CLASS_NAME,
-        'visible' => true,
-        'name' => $tabNames,
-        'parent_class_name' => 'IMPROVE',
-        'icon' => 'snowboarding',
-      ],
-    ];
+            [
+                'route_name' => 'admin_favoriterider_riders_index',
+                'class_name' => RidersController::TAB_CLASS_NAME,
+                'visible' => true,
+                'name' => $tabNames,
+                'parent_class_name' => 'IMPROVE',
+                'icon' => 'snowboarding',
+            ],
+        ];
 
         $this->assetsPath = $this->_path . 'public/build/';
     }
@@ -155,35 +155,35 @@ class FavoriteRider extends Module
         $pagesOptions = [];
         foreach ($pages as $name => $id) {
             $pagesOptions[] = [
-        'id' => $id,
-        'name' => $name,
-      ];
+                'id' => $id,
+                'name' => $name,
+            ];
         }
 
         $form = [
-      'form' => [
-        'legend' => [
-          'title' => $this->trans('Settings', [], 'Admin.Global'),
-        ],
-        'input' => [
-          [
-            'type' => 'select',
-            'label' => $this->trans('CMS Page', [], 'Modules.Favoriterider.Admin'),
-            'desc' => $this->trans('Page on which the widget will be rendered', [], 'Modules.Favoriterider.Admin'),
-            'name' => 'FAVORITERIDER_CMS_PAGE_ID',
-            'required' => false,
-            'options' => [
-              'query' => $pagesOptions,
-              'id' => 'id',
-              'name' => 'name',
+            'form' => [
+                'legend' => [
+                    'title' => $this->trans('Settings', [], 'Admin.Global'),
+                ],
+                'input' => [
+                    [
+                        'type' => 'select',
+                        'label' => $this->trans('CMS Page', [], 'Modules.Favoriterider.Admin'),
+                        'desc' => $this->trans('Page on which the widget will be rendered', [], 'Modules.Favoriterider.Admin'),
+                        'name' => 'FAVORITERIDER_CMS_PAGE_ID',
+                        'required' => false,
+                        'options' => [
+                            'query' => $pagesOptions,
+                            'id' => 'id',
+                            'name' => 'name',
+                        ],
+                    ],
+                ],
+                'submit' => [
+                    'title' => $this->trans('Save', [], 'Admin.Global'),
+                ],
             ],
-          ],
-        ],
-        'submit' => [
-          'title' => $this->trans('Save', [], 'Admin.Global'),
-        ],
-      ],
-    ];
+            ];
 
         $helper = new HelperForm();
         $helper->table = $this->table;
@@ -225,9 +225,9 @@ class FavoriteRider extends Module
         }
 
         $this->smarty->assign([
-      'riders' => $presentedRiders,
-      'link' => $link,
-    ]);
+            'riders' => $presentedRiders,
+            'link' => $link,
+        ]);
 
         return $this->fetch('module:' . $this->name . '/views/templates/front/home.tpl');
     }
@@ -290,9 +290,9 @@ class FavoriteRider extends Module
 
         //vote controller link
         $voteUrl = $this->context->link->getModuleLink(
-      'favoriterider',
-      'vote'
-    );
+        'favoriterider',
+        'vote'
+        );
 
         //check already voted rider
         if ($this->context->cookie->favorite_rider) {
@@ -309,12 +309,12 @@ class FavoriteRider extends Module
         }
 
         return [
-      'riders' => $presentedRiders,
-      'current' => $current,
-      'voted' => $voted,
-      'voted_id' => $votedId,
-      'vote_url' => $voteUrl,
-    ];
+            'riders' => $presentedRiders,
+            'current' => $current,
+            'voted' => $voted,
+            'voted_id' => $votedId,
+            'vote_url' => $voteUrl,
+        ];
     }
 
     /**
