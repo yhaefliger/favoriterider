@@ -45,7 +45,7 @@ class RiderType extends TranslatorAwareType
     $builder
       ->add('name', TextType::class, [
         'label' => 'Rider name',
-        'translation_domain' => 'Modules.FavoriteRider.Admin',
+        'translation_domain' => 'Modules.Favoriterider.Admin',
         'constraints' => [
           new Length([
             'max' => 64,
@@ -60,7 +60,7 @@ class RiderType extends TranslatorAwareType
       ])
       ->add('discipline', TextType::class, [
         'label' => 'Rider discipline',
-        'translation_domain' => 'Modules.FavoriteRider.Admin',
+        'translation_domain' => 'Modules.Favoriterider.Admin',
         'constraints' => [
           new Length([
             'max' => 255,
@@ -75,7 +75,7 @@ class RiderType extends TranslatorAwareType
       ])
       ->add('image', FileType::class, [
         'label' => 'Rider Photo',
-        'translation_domain' => 'Modules.FavoriteRider.Admin',
+        'translation_domain' => 'Modules.Favoriterider.Admin',
         'required' => false,
       ]);
   }

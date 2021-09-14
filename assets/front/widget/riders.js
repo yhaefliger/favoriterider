@@ -30,7 +30,7 @@ import './riders.scss';
 
 $(() => {
   let carousel = $('.riders-carousel');
-  var init = $('#ridersThumb').data('init');
+  let init = $('#ridersThumb').data('init');
 
   carousel.on('init', function(event, slick) {
     $('#ridersCarousel').show();

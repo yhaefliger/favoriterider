@@ -45,10 +45,23 @@ class RiderPresenter implements PresenterInterface
   public function present($rider, $images = true): array
   {
     $data = [
+      'id' => $rider->getId(),
       'name' => $rider->getName(),
       'discipline' => $rider->getDiscipline(),
       'votes' => (int) $rider->getVotes(),
     ];
+  
+    $splittedName = explode(' ', $rider->getName());
+    $shortName = '';
+    $lastKey = array_key_last($splittedName);
+    foreach($splittedName as $i => $namePart) {
+      if($i != $lastKey){
+        $shortName .= strtoupper(substr($namePart, 0, 1).'.').' ';
+      }else{
+        $shortName .= $namePart;
+      }
+    }
+    $data['short_name'] = $shortName;
 
     if (true === $images) {
       $data['image'] = $rider->getAllImages();

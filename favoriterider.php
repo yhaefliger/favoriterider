@@ -62,12 +62,12 @@ class FavoriteRider extends Module
 
     parent::__construct();
 
-    $this->displayName = $this->trans('Favorite Rider', [], 'Modules.FavoriteRider.Admin');
-    $this->description = $this->trans('Let visitors vote for their favorite rider!', [], 'Modules.FavoriteRider.Admin');
+    $this->displayName = $this->trans('Favorite Rider', [], 'Modules.Favoriterider.Admin');
+    $this->description = $this->trans('Let visitors vote for their favorite rider!', [], 'Modules.Favoriterider.Admin');
     
     $tabNames = [];
     foreach (Language::getLanguages(true) as $lang) {
-      $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.FavoriteRider.Admin', $lang['locale']);
+      $tabNames[$lang['locale']] = $this->trans('Manage Riders', [], 'Modules.Favoriterider.Admin', $lang['locale']);
     }
     $this->tabs = [
       [
@@ -132,7 +132,7 @@ class FavoriteRider extends Module
       $cmsPageId = Tools::getValue('FAVORITERIDER_CMS_PAGE_ID');
       if ($cmsPageId && !empty($cmsPageId)) {
         if (!in_array($cmsPageId, $pages)) { 
-          $output = $this->displayError($this->trans('Invalid cms page', [], 'Modules.FavoriteRider.Admin'));
+          $output = $this->displayError($this->trans('Invalid cms page', [], 'Modules.Favoriterider.Admin'));
         } else {
           Configuration::updateValue('FAVORITERIDER_CMS_PAGE_ID', $cmsPageId);
           $output = $this->displayConfirmation($this->trans('The settings have been updated.', [], 'Admin.Notifications.Success'));
@@ -168,8 +168,8 @@ class FavoriteRider extends Module
         'input' => [
           [
             'type' => 'select',
-            'label' => $this->trans('CMS Page', [], 'Modules.FavoriteRider.Admin'),
-            'desc' => $this->trans('Page on which the widget will be rendered', [], 'Modules.FavoriteRider.Admin'),
+            'label' => $this->trans('CMS Page', [], 'Modules.Favoriterider.Admin'),
+            'desc' => $this->trans('Page on which the widget will be rendered', [], 'Modules.Favoriterider.Admin'),
             'name' => 'FAVORITERIDER_CMS_PAGE_ID',
             'required' => false,
             'options' => [
@@ -290,13 +290,29 @@ class FavoriteRider extends Module
     //vote controller link
     $voteUrl = $this->context->link->getModuleLink(
       'favoriterider',
-      'PostVote'
+      'vote'
     );
+
+    //check already voted rider
+    if($this->context->cookie->favorite_rider) {
+      foreach($presentedRiders as $key => $rider) {
+        if($rider['id'] == $this->context->cookie->favorite_rider){
+          $current = $key;
+          $voted = $rider;
+          $votedId = $rider['id'];
+        }
+      }
+    }else{
+      $current = 0;
+      $voted = $votedId = false;
+    }
 
     return [
       'riders' => $presentedRiders,
-      'current' => 1, //TODO: get voted / specific rider from url param
-      'voteUrl' => $voteUrl,
+      'current' => $current,
+      'voted' => $voted,
+      'voted_id' => $votedId,
+      'vote_url' => $voteUrl,
     ];
   }
 

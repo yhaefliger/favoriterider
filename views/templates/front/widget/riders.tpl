@@ -25,13 +25,29 @@
  <div class="riders-widget">
   <div class="riders-thumbs" id="ridersThumb" data-init="{$current}">
     {foreach $riders as $rider}
-      <div class="rider-thumb pos-{$rider.position} {if $current == $rider@index}current{/if}" id="riderThumb-{$rider@index}">
+      <div class="rider-thumb pos-{$rider.position} {if $current == $rider@index}current{/if} {if $rider.id == $voted_id}voted{/if}" id="riderThumb-{$rider@index}">
         <button class="rider-thumb-btn" data-index="{$rider@index}" aria-label="Show {$rider.name}">
           <img src="{$rider.image.md}" class="thumb" alt="{$rider.name} Thumb" width="90" height="90" />
+          <div class="rider-thumb-info">
+            <div class="votes">
+              {if $rider.id == $voted_id}
+                <i class="material-icons">favorite</i>
+              {else}
+                <i class="material-icons">favorite_border</i>
+              {/if}
+              {$rider.votes}
+            </div>
+            <div class="rider-short-name">
+              {$rider.short_name}
+            </div>
+            
+          </div>
+          
         </button>
       </div>
     {/foreach}
   </div>
+  
   <div class="riders-carousel" id="ridersCarousel" style="display:none;">
     {foreach $riders as $rider}
       <div class="relative rider-carousel-item">
@@ -40,6 +56,30 @@
           <div class="wrapper">
             <h3>{$rider.name}</h3>
             <div class="rider-discipline">{$rider.discipline}</div>
+            <div class="alert alert-info rider-votes-alert" role="alert">
+              {l s='This rider is ranked <strong>#%position%</strong> with <strong>%votes%</strong> votes recieved' sprintf=['%position%' => $rider.position, '%votes%' => $rider.votes] d='Modules.Favoriterider.Shop'}
+            </div>
+            <div class="rider-vote-form">
+              {if $rider.id == $voted_id}
+                <div class="rider-voted">
+                  <i class="material-icons">favorite</i>
+                  {l s='You have voted for this rider.<br />Thanks for participating!' d='Modules.Favoriterider.Shop'}
+                </div>
+              {else}
+                <form method="POST" action="{$vote_url nofilter}">
+                  <input type="hidden" name="id_rider" value="{$rider.id}" />
+                  <button type="submit" class="btn btn-big btn-vote">
+                    {l s='Vote for this rider' d='Modules.Favoriterider.Shop'}
+                  </button>
+                  {if $voted_id > 0}
+                    <div class="text-muted mt-1">
+                      {l s='You have already voted. If you vote for this rider, your current vote for %previous_rider% will be removed.' sprintf=['%previous_rider%' => $voted.name] d='Module.Favoriterider.Shop'}
+                    </div>
+                  {/if}
+                </form>
+                
+              {/if}
+            </div>
           </div>
         </div>
       </div>

@@ -55,7 +55,7 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
 
     protected function getName()
     {
-        return $this->trans('Riders', [], 'Modules.FavoriteRider.Admin');
+        return $this->trans('Riders', [], 'Modules.Favoriterider.Admin');
     }
 
     protected function getColumns()
@@ -68,26 +68,26 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                 ])
             )
             ->add((new ImageColumn('image'))
-                ->setName($this->trans('Rider Photo', [], 'Modules.FavoriteRider.Admin'))
+                ->setName($this->trans('Rider Photo', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
                     'src_field' => 'image',
                 ])
             )
             ->add((new BadgeColumn('votes'))
-                ->setName($this->trans('Votes', [], 'Modules.FavoriteRider.Admin'))
+                ->setName($this->trans('Votes', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
                     'field' => 'votes',
                     'empty_value' => '0',
                 ])
             )
             ->add((new DataColumn('name'))
-                ->setName($this->trans('Rider Name', [], 'Modules.FavoriteRier.Admin'))
+                ->setName($this->trans('Rider Name', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
                     'field' => 'name'
                 ])
             )
             ->add((new DataColumn('discipline'))
-                ->setName($this->trans('Rider Discipline', [], 'Modules.FavoriteRider.Admin'))
+                ->setName($this->trans('Rider Discipline', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
                     'field' => 'discipline'
                 ])

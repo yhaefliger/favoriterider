@@ -1,8 +1,8 @@
 @use '../../base';
 
-.riders-container{
+.riders-container {
     text-align: center; 
-    .home-riders{
+    .home-riders {
         display:flex;
         align-items: center;
         justify-content: center;
@@ -14,7 +14,7 @@
                 margin-bottom: 0;
                 font-size: 1rem;
             }
-            .image-container{
+            .image-container {
                 border-radius: 50%;
                 width: 100%;
                 height: 150px;
@@ -22,7 +22,7 @@
                 background-size:cover;
                 background-position: base.$cropPosition;
                 position: relative;
-                .badge{
+                .badge {
                     position:absolute;
                     bottom:0;
                     right: 0;
@@ -42,24 +42,24 @@
                     }
                 }
             }
-            .rider-info{
+            .rider-info {
                 padding:1rem;
             }
         }
         .pos-2 {
             order:1;
-            .image-container{
+            .image-container {
                 border-color: base.$silver;
-                .badge{
+                .badge {
                     background-color:base.$silverDark;
                 }
             }
         }
         .pos-3 {
             order:3;
-            .image-container{
+            .image-container {
                 border-color: base.$bronze;
-                .badge{
+                .badge {
                     background-color:base.$bronzeDark;
                 }
             }
@@ -71,14 +71,14 @@
             h3{
                 font-size:1.1rem;
             }
-            .image-container{
+            .image-container {
                 z-index: 20;
                 border:10px solid base.$gold;
                 position:relative;
                 left:-1rem;
                 width:190px;
                 height: 190px;
-                .badge{
+                .badge {
                     background-color:base.$goldDark;
                 }
             }
@@ -90,18 +90,18 @@
 }
 
 @media (min-width: 992px) { 
-    .riders-container .home-riders{
-        & > div{
+    .riders-container .home-riders {
+        & > div {
             width:240px;
             .image-container {
                 height:240px;
             }
         }
-        .pos-1{
-            h3{
+        .pos-1 {
+            h3 {
                 font-size: 1.3rem;
             }
-            .image-container{
+            .image-container {
                 width:280px;
                 height: 280px;
                 border-width: 15px;

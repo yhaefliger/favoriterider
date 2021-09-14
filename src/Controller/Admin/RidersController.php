@@ -63,7 +63,7 @@ class RidersController extends FrameworkBundleAdminController
         $ridersGrid = $ridersGirdFactory->getGrid($riderGridFilters);
 
         return $this->render('@Modules/favoriterider/views/templates/admin/riders/index.html.twig', [
-            'layoutTitle' => $this->trans('Manage riders', 'Modules.FavoriteRider.Admin'),
+            'layoutTitle' => $this->trans('Manage riders', 'Modules.Favoriterider.Admin'),
             'ridersGrid' => $this->presentGrid($ridersGrid),
         ]);
     }
@@ -119,7 +119,7 @@ class RidersController extends FrameworkBundleAdminController
         }
 
         return $this->render('@Modules/favoriterider/views/templates/admin/riders/create.html.twig', [
-            'layoutTitle' => $this->trans('Manage riders', 'Modules.FavoriteRider.Admin'),
+            'layoutTitle' => $this->trans('Manage riders', 'Modules.Favoriterider.Admin'),
             'riderForm' => $riderForm->createView(),
         ]);
     }
@@ -151,7 +151,7 @@ class RidersController extends FrameworkBundleAdminController
         }
 
         return $this->render('@Modules/favoriterider/views/templates/admin/riders/edit.html.twig', [
-            'layoutTitle' => $this->trans('Manage riders', 'Modules.FavoriteRider.Admin'),
+            'layoutTitle' => $this->trans('Manage riders', 'Modules.Favoriterider.Admin'),
             'riderForm' => $riderForm->createView(),
         ]);
     }
@@ -190,7 +190,7 @@ class RidersController extends FrameworkBundleAdminController
                 'error',
                 $this->trans(
                     'Cannot find rider %rider%',
-                    'Modules.FavoriteRider.Admin',
+                    'Modules.Favoriterider.Admin',
                     ['%rider%' => $riderId]
                 )
             );

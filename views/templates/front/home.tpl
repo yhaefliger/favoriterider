@@ -23,7 +23,7 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  *}
 <div class="riders-container home-favorite-riders">
-    <h2 class="text-center mb-4">Top Riders</h2>
+    <h2 class="mb-4 text-center">{l s='Top Riders' d='Modules.Favoriterider.Shop'}</h2>
     <div class="home-riders">
         {foreach $riders as $rider}
             <div class="rider pos-{$rider@iteration}">
@@ -42,7 +42,7 @@
     </div>
     {if $link}
     <div class="cta-link ">
-        <a class="btn btn-primary" href="{$link}">Votez pour votre rider préféré!</a>
+        <a class="btn btn-primary" href="{$link}">{l s='Vote for your favorite rider' d='Modules.Favoriterider.Shop'}</a>
     </div>
     {/if}
 </div>
