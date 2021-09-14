@@ -32,23 +32,37 @@ $(() => {
   let carousel = $('.riders-carousel');
   let init = $('#ridersThumb').data('init');
 
+  //show carousel after init complete to avoid page with all images wrongly displayed
   carousel.on('init', function(event, slick) {
     $('#ridersCarousel').show();
   });
 
+  //sync thumb current class with carousel onchange events
   carousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
     $('.rider-thumb').removeClass('current');
     $('#riderThumb-' + nextSlide).addClass('current');
+  });
+  
+  //global page left/right keys listener
+  $('body').on('keydown',function(e) {
+    var code = e.keyCode || e.which;
+    if(code == 37) {
+      //left key
+      carousel.slick('slickPrev');
+    } else if(code == 39) {
+      //right key 
+      carousel.slick('slickNext');
+    }
+  });
+
+  //thumb navigation
+  $('.rider-thumb-btn').on('click', function(e) {
+    const index = parseInt($(this).data('index'));
+    carousel.slick('slickGoTo', index);
   });
 
   carousel.slick({
     fade: true,
     initialSlide: init,
-  });
-  
-
-  $('.rider-thumb-btn').on('click', function(e) {
-    const index = parseInt($(this).data('index'));
-    carousel.slick('slickGoTo', index);
   });
 });
