@@ -33,42 +33,41 @@ use PrestaShop\PrestaShop\Core\Foundation\Templating\PresenterInterface;
 
 class RiderPresenter implements PresenterInterface
 {
+    /**
+     * Return array of formatted rider fields for template
+     *
+     * @param Rider $rider
+     * @param bool|string $images specific image size or all images / none
+     *
+     * @return array
+     */
+    public function present($rider, $images = true): array
+    {
+        $data = [
+            'id' => $rider->getId(),
+            'name' => $rider->getName(),
+            'discipline' => $rider->getDiscipline(),
+            'votes' => (int) $rider->getVotes(),
+        ];
 
-  /**
-   * Return array of formatted rider fields for template
-   *
-   * @param Rider $rider
-   * @param bool|string $images specific image size or all images / none
-   * 
-   * @return array
-   */
-  public function present($rider, $images = true): array
-  {
-    $data = [
-      'id' => $rider->getId(),
-      'name' => $rider->getName(),
-      'discipline' => $rider->getDiscipline(),
-      'votes' => (int) $rider->getVotes(),
-    ];
-  
-    $splittedName = explode(' ', $rider->getName());
-    $shortName = '';
-    $lastKey = array_key_last($splittedName);
-    foreach($splittedName as $i => $namePart) {
-      if($i != $lastKey){
-        $shortName .= strtoupper(substr($namePart, 0, 1).'.').' ';
-      }else{
-        $shortName .= $namePart;
-      }
+        $splittedName = explode(' ', $rider->getName());
+        $shortName = '';
+        $lastKey = array_key_last($splittedName);
+        foreach ($splittedName as $i => $namePart) {
+            if ($i != $lastKey) {
+                $shortName .= strtoupper(substr($namePart, 0, 1) . '.') . ' ';
+            } else {
+                $shortName .= $namePart;
+            }
+        }
+        $data['short_name'] = $shortName;
+
+        if (true === $images) {
+            $data['image'] = $rider->getAllImages();
+        } elseif (is_string($images)) {
+            $data['image'] = $rider->getImageUrl($images);
+        }
+
+        return $data;
     }
-    $data['short_name'] = $shortName;
-
-    if (true === $images) {
-      $data['image'] = $rider->getAllImages();
-    } elseif (is_string($images)) {
-      $data['image'] = $rider->getImageUrl($images);
-    }
-
-    return $data;
-  }  
 }

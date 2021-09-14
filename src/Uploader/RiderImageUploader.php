@@ -29,12 +29,12 @@ declare(strict_types=1);
 namespace PrestaShop\Module\FavoriteRider\Uploader;
 
 use ImageManager;
-use PrestaShopException;
 use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\PrestaShop\Adapter\Image\Uploader\AbstractImageUploader;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageOptimizationException;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\ImageUploadException;
 use PrestaShop\PrestaShop\Core\Image\Uploader\Exception\MemoryLimitException;
+use PrestaShopException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -42,7 +42,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 final class RiderImageUploader extends AbstractImageUploader
 {
-
     /**
      * {@inheritdoc}
      */
@@ -63,14 +62,14 @@ final class RiderImageUploader extends AbstractImageUploader
         if (!ImageManager::checkImageMemoryLimit($temporaryImageName)) {
             throw new MemoryLimitException('Due to memory limit restrictions, this image cannot be loaded. Increase your memory_limit value.');
         }
-        
+
         // Copy new image
         if (!ImageManager::resize($temporaryImageName, Rider::IMAGE_PATH . $riderId . '.jpg')) {
             throw new ImageOptimizationException('An error occurred while uploading the image. Check your directory permissions.');
         }
-        
+
         //admin thumb clear
-        if(file_exists(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg')){
+        if (file_exists(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg')) {
             @unlink(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg');
         }
 
@@ -81,6 +80,7 @@ final class RiderImageUploader extends AbstractImageUploader
      * Create the thumbnail
      *
      * @param string $original
+     *
      * @return bool
      */
     private function createThumbnail($riderId): bool
@@ -94,7 +94,7 @@ final class RiderImageUploader extends AbstractImageUploader
                 count($_FILES) &&
                 file_exists($filename)
             ) {
-                /**
+                /*
                  * Squared thumb 150x150
                  */
                 $resized &= ImageManager::resize(
@@ -104,21 +104,21 @@ final class RiderImageUploader extends AbstractImageUploader
                     150
                 );
 
-                /**
+                /*
                  * Same proportions height based thumbs
                  */
                 foreach (Rider::IMAGE_SIZES as $thumbName => $heightThumb) {
                     list($widthOrig, $heightOrig) = getimagesize($filename);
                     $widthThumb = ($heightThumb * $widthOrig) / $heightOrig;
-    
-                     $resized &= ImageManager::resize(
+
+                    $resized &= ImageManager::resize(
                         Rider::IMAGE_PATH . $riderId . '.jpg',
-                        Rider::IMAGE_PATH . $riderId . '-'.$thumbName.'.jpg',
+                        Rider::IMAGE_PATH . $riderId . '-' . $thumbName . '.jpg',
                         $widthThumb,
                         $heightThumb
                     );
                 }
-                
+
                 return true;
             }
         } catch (PrestaShopException $e) {

@@ -34,7 +34,6 @@ use PrestaShop\PrestaShop\Core\Grid\Search\SearchCriteriaInterface;
 
 final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
 {
-
     /**
      * {@inheritdoc}
      */
@@ -75,7 +74,7 @@ final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
             ->select('*')
             ->from($this->dbPrefix . 'rider', 'r')
         ;
-        
+
         //Apply filters
         foreach ($filters as $filterName => $filterValue) {
             //id_rider exact value match
@@ -84,15 +83,15 @@ final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
                 $qb->setParameter($filterName, (int) $filterValue);
             //number of votes (min-max filter)
             } elseif ('votes' === $filterName) {
-                if(isset($filterValue['min_field']) && !empty($filterValue['min_field'])){
+                if (isset($filterValue['min_field']) && !empty($filterValue['min_field'])) {
                     $qb->andWhere("$filterName >= :$filterName");
                     $qb->setParameter($filterName, $filterValue['min_field']);
                 }
-                if(isset($filterValue['max_field']) && !empty($filterValue['max_field'])){                    
+                if (isset($filterValue['max_field']) && !empty($filterValue['max_field'])) {
                     $qb->andWhere("$filterName <= :$filterName");
                     $qb->setParameter($filterName, $filterValue['max_field']);
                 }
-            //other filters -> like %%
+                //other filters -> like %%
             } else {
                 $qb->andWhere("$filterName LIKE :$filterName");
                 $qb->setParameter($filterName, '%' . $filterValue . '%');

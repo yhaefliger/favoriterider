@@ -35,8 +35,9 @@ class RiderRepository extends EntityRepository
     /**
      * Return riders with the most votes
      *
-     * @param integer $nbRiders
-     * @return array 
+     * @param int $nbRiders
+     *
+     * @return array
      */
     public function getTopRiders($nbRiders = 3)
     {

@@ -64,7 +64,7 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
             ->add((new DataColumn('id_rider'))
                 ->setName($this->trans('ID', [], 'Admin.Global'))
                 ->setOptions([
-                    'field' => 'id_rider'
+                    'field' => 'id_rider',
                 ])
             )
             ->add((new ImageColumn('image'))
@@ -83,13 +83,13 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
             ->add((new DataColumn('name'))
                 ->setName($this->trans('Rider Name', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
-                    'field' => 'name'
+                    'field' => 'name',
                 ])
             )
             ->add((new DataColumn('discipline'))
                 ->setName($this->trans('Rider Discipline', [], 'Modules.Favoriterider.Admin'))
                 ->setOptions([
-                    'field' => 'discipline'
+                    'field' => 'discipline',
                 ])
             )
             ->add((new ActionColumn('actions'))
@@ -110,8 +110,8 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setTypeOptions([
                         'required' => false,
                         'attr' => [
-                            'placeholder' => $this->trans('Search ID', [], 'Admin.Actions')
-                        ]
+                            'placeholder' => $this->trans('Search ID', [], 'Admin.Actions'),
+                        ],
                     ])
             )
             ->add(
@@ -120,8 +120,8 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                 ->setTypeOptions([
                     'required' => false,
                     'attr' => [
-                        'placeholder' => $this->trans('Search Rider name', [], 'Admin.Actions')
-                    ]
+                        'placeholder' => $this->trans('Search Rider name', [], 'Admin.Actions'),
+                    ],
                 ])
             )
             ->add(
@@ -130,8 +130,8 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                 ->setTypeOptions([
                     'required' => false,
                     'attr' => [
-                        'placeholder' => $this->trans('Search Rider discipline', [], 'Admin.Actions')
-                    ]
+                        'placeholder' => $this->trans('Search Rider discipline', [], 'Admin.Actions'),
+                    ],
                 ])
             )
             ->add(
@@ -152,7 +152,6 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
                         'redirect_route' => 'admin_favoriterider_riders_index',
                     ])
             );
-        ;
     }
 
     /**

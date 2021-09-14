@@ -17,5 +17,9 @@
         }
     ],
     "author": "PrestaShop",
-    "license": "AFL-3.0"
+    "license": "AFL-3.0",
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.99",
+        "prestashop/php-dev-tools": "^4.1"
+    }
 }

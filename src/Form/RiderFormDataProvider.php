@@ -34,46 +34,46 @@ use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataProvider\FormDataProv
 
 class RiderFormDataProvider implements FormDataProviderInterface
 {
-  /**
-   * Rider Repository
-   *
-   * @var RiderRepository
-   */
-  private $repository;
+    /**
+     * Rider Repository
+     *
+     * @var RiderRepository
+     */
+    private $repository;
 
-  /**
-   * Class constructor with injected repository
-   *
-   * @param RiderRepository $repository
-   */
-  public function __construct(RiderRepository $repository) 
-  {
-    $this->repository = $repository;
-  }
+    /**
+     * Class constructor with injected repository
+     *
+     * @param RiderRepository $repository
+     */
+    public function __construct(RiderRepository $repository)
+    {
+        $this->repository = $repository;
+    }
 
-  public function getData($riderId)
-  {
-    /** @var Rider $rider */
-    $rider = $this->repository->findOneById($riderId);
-    
-    $riderData = [
-      'name' => $rider->getName(),
-      'discipline' => $rider->getDiscipline(),
-      'votes' => $rider->getVotes(),
-    ];
+    public function getData($riderId)
+    {
+        /** @var Rider $rider */
+        $rider = $this->repository->findOneById($riderId);
 
-    return $riderData;
-  }
+        $riderData = [
+          'name' => $rider->getName(),
+          'discipline' => $rider->getDiscipline(),
+          'votes' => $rider->getVotes(),
+        ];
 
-  /**
-   * {@inheritDoc}
-   */
-  public function getDefaultData()
-  {
-    return [
-      'name' => '',
-      'discipline' => '',
-      'votes' => 0,
-    ];
-  }
+        return $riderData;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDefaultData()
+    {
+        return [
+          'name' => '',
+          'discipline' => '',
+          'votes' => 0,
+        ];
+    }
 }

@@ -37,12 +37,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RiderType extends TranslatorAwareType
 {
-  /**
-   * {@inheritDoc}
-   */
-  public function buildForm(FormBuilderInterface $builder, array $options)
-  {
-    $builder
+    /**
+     * {@inheritDoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
       ->add('name', TextType::class, [
         'label' => 'Rider name',
         'translation_domain' => 'Modules.Favoriterider.Admin',
@@ -56,7 +56,7 @@ class RiderType extends TranslatorAwareType
             ),
           ]),
           new NotBlank(),
-        ]
+        ],
       ])
       ->add('discipline', TextType::class, [
         'label' => 'Rider discipline',
@@ -71,12 +71,12 @@ class RiderType extends TranslatorAwareType
             ),
           ]),
           new NotBlank(),
-        ]
+        ],
       ])
       ->add('image', FileType::class, [
         'label' => 'Rider Photo',
         'translation_domain' => 'Modules.Favoriterider.Admin',
         'required' => false,
       ]);
-  }
+    }
 }

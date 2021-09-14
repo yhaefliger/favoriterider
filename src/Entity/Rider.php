@@ -39,7 +39,7 @@ class Rider
     /**
      * Rider image path
      */
-    public const IMAGE_PATH = _PS_IMG_DIR_.'rider/';
+    public const IMAGE_PATH = _PS_IMG_DIR_ . 'rider/';
 
     /**
      * Rider images sizes generated
@@ -53,7 +53,7 @@ class Rider
 
     /**
      * @var int
-     * 
+     *
      * @ORM\Id
      * @ORM\Column(name="id_rider", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -73,7 +73,7 @@ class Rider
      * Rider discipline (freestyle/alpin/...)
      *
      * @var string
-     * 
+     *
      * @ORM\Column(type="string")
      */
     private $discipline;
@@ -82,17 +82,16 @@ class Rider
      * Number of votes
      *
      * @var int
-     * 
+     *
      * @ORM\Column(type="integer")
      */
     private $votes;
-    
 
     /**
      * Get the value of id
      *
-     * @return  int
-     */ 
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
@@ -101,8 +100,8 @@ class Rider
     /**
      * Set the value of id
      *
-     * @param  int  $id
-     */ 
+     * @param int $id
+     */
     public function setId(int $id): void
     {
         $this->id = $id;
@@ -111,8 +110,8 @@ class Rider
     /**
      * Get rider name
      *
-     * @return  string
-     */ 
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
@@ -121,8 +120,8 @@ class Rider
     /**
      * Set rider name
      *
-     * @param  string  $name  Rider name
-     */ 
+     * @param string $name Rider name
+     */
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -131,8 +130,8 @@ class Rider
     /**
      * Get rider discipline (freestyle/alpin/...)
      *
-     * @return  string
-     */ 
+     * @return string
+     */
     public function getDiscipline(): string
     {
         return $this->discipline;
@@ -141,19 +140,18 @@ class Rider
     /**
      * Set rider discipline (freestyle/alpin/...)
      *
-     * @param  string  $discipline  Rider discipline (freestyle/alpin/...)
-     */ 
+     * @param string $discipline Rider discipline (freestyle/alpin/...)
+     */
     public function setDiscipline(string $discipline): void
     {
         $this->discipline = $discipline;
     }
 
-
     /**
      * Get number of votes
      *
-     * @return  int
-     */ 
+     * @return int
+     */
     public function getVotes(): int
     {
         return $this->votes;
@@ -162,8 +160,8 @@ class Rider
     /**
      * Set number of votes
      *
-     * @param  int  $votes  Number of votes
-     */ 
+     * @param int $votes Number of votes
+     */
     public function setVotes(int $votes): void
     {
         $this->votes = $votes;
@@ -173,7 +171,7 @@ class Rider
      * Get Rider image path
      *
      * @param sring $size (mini, thumb, default)
-     * 
+     *
      * @return string
      */
     public function getImageUrl(string $size = 'default'): string
@@ -183,12 +181,12 @@ class Rider
         } else {
             $image_name = $this->getId() . '.jpg';
         }
-        
+
         $image_path = implode(DIRECTORY_SEPARATOR, [
             rtrim(self::IMAGE_PATH, DIRECTORY_SEPARATOR),
-            $image_name
+            $image_name,
         ]);
-        
+
         if (file_exists($image_path)) {
             return __PS_BASE_URI__ . 'img/rider/' . $image_name;
         }
@@ -204,7 +202,7 @@ class Rider
     public function getAllImages(): array
     {
         $images = [];
-        
+
         foreach (array_keys(Rider::IMAGE_SIZES) as $size) {
             $images[$size] = $this->getImageUrl($size);
         }

@@ -44,14 +44,13 @@ class RidersController extends FrameworkBundleAdminController
 {
     const TAB_CLASS_NAME = 'AdminRidersController';
 
-    
-    /** 
+    /**
      * Index action
      *
      * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))")
      *
      * @param RiderGridFilters $filters
-     * 
+     *
      * @return Response
      */
     public function indexAction(
@@ -70,11 +69,11 @@ class RidersController extends FrameworkBundleAdminController
 
     /**
      * Search filters
-     * 
+     *
      * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))")
      *
      * @param Request $request
-     * 
+     *
      * @return RedirectResponse
      */
     public function searchAction(Request $request)
@@ -89,15 +88,14 @@ class RidersController extends FrameworkBundleAdminController
             'admin_favoriterider_riders_index'
         );
     }
-    
+
     /**
      * Create/Edit form
-     * 
+     *
      * @AdminSecurity("is_granted(['create'], request.get('_legacy_controller'))")
      *
-     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     public function createAction(Request $request)
@@ -126,9 +124,8 @@ class RidersController extends FrameworkBundleAdminController
 
     /**
      * Create/Edit form
-     * 
-     * @AdminSecurity("is_granted(['update'], request.get('_legacy_controller'))")
      *
+     * @AdminSecurity("is_granted(['update'], request.get('_legacy_controller'))")
      *
      * @param Request $request
      * @param int $riderId
@@ -158,7 +155,7 @@ class RidersController extends FrameworkBundleAdminController
 
     /**
      * Delete a rider
-     * 
+     *
      * @AdminSecurity("is_granted(['delete'], request.get('_legacy_controller'))")
      *
      * @param int $riderId
@@ -168,7 +165,7 @@ class RidersController extends FrameworkBundleAdminController
     public function deleteAction($riderId)
     {
         $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
-        
+
         try {
             $rider = $repository->findOneById($riderId);
         } catch (EntityNotFoundException $e) {
