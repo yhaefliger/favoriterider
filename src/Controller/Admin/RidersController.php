@@ -82,9 +82,11 @@ class RidersController extends FrameworkBundleAdminController
     {
         /** @var ResponseBuilder $responseBuilder */
         $responseBuilder = $this->get('prestashop.bundle.grid.response_builder');
+        /** @var RiderGridDefinitionFactory $factory */
+        $factory = $this->get('prestashop.module.favoriterider.rider_grid_definition_factory');
 
         return $responseBuilder->buildSearchResponse(
-            $this->get('prestashop.module.favoriterider.rider_grid_definition_factory'),
+            $factory,
             $request,
             RiderGridDefinitionFactory::GRID_ID,
             'admin_favoriterider_riders_index'
@@ -206,7 +208,10 @@ class RidersController extends FrameworkBundleAdminController
      */
     private function getFormBuilder()
     {
-        return $this->get('prestashop.module.favoriterider.form.identifiable_object.builder.rider_form_builder');
+        /** @var FormBuilder $service */
+        $service = $this->get('prestashop.module.favoriterider.form.identifiable_object.builder.rider_form_builder');
+
+        return $service;
     }
 
     /**
@@ -216,6 +221,9 @@ class RidersController extends FrameworkBundleAdminController
      */
     private function getFormHandler()
     {
-        return $this->get('prestashop.module.favoriterider.form.identifiable_object.handler.rider_form_handler');
+        /** @var FormHandler $service */
+        $service = $this->get('prestashop.module.favoriterider.form.identifiable_object.handler.rider_form_handler');
+
+        return $service;
     }
 }

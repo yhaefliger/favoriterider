@@ -41,12 +41,21 @@ final class RiderQueryBuilder extends AbstractDoctrineQueryBuilder
     {
         $qb = $this->getBaseQuery($searchCriteria->getFilters());
 
-        return $qb->orderBy(
-            $searchCriteria->getOrderBy(),
-            $searchCriteria->getOrderWay()
-            )
-            ->setFirstResult($searchCriteria->getOffset())
-            ->setMaxResults($searchCriteria->getLimit());
+        if (is_string($searchCriteria->getOrderBy())) {
+            $qb->orderBy(
+                $searchCriteria->getOrderBy(),
+                $searchCriteria->getOrderWay()
+            );
+        }
+
+        if (is_int($searchCriteria->getOffset())) {
+            $qb->setFirstResult($searchCriteria->getOffset());
+        }
+        if (is_int($searchCriteria->getLimit())) {
+            $qb->setMaxResults($searchCriteria->getLimit());
+        }
+
+        return $qb;
     }
 
     /**

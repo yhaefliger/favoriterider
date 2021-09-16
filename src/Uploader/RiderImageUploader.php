@@ -90,8 +90,7 @@ final class RiderImageUploader extends AbstractImageUploader
 
         try {
             /* Generate 150x150 thumbnail */
-            if (isset($_FILES) &&
-                count($_FILES) &&
+            if (count($_FILES) &&
                 file_exists($filename)
             ) {
                 /*

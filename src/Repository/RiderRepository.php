@@ -29,7 +29,11 @@ declare(strict_types=1);
 namespace PrestaShop\Module\FavoriteRider\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use PrestaShop\Module\FavoriteRider\Entity\Rider;
 
+/**
+ * @extends EntityRepository<Rider>
+ */
 class RiderRepository extends EntityRepository
 {
     /**

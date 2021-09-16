@@ -347,7 +347,10 @@ class FavoriteRider extends Module
      */
     private function getRepository(): RiderRepository
     {
-        return $this->get('prestashop.module.favoriterider.repository.rider_repository');
+        /** @var RiderRepository $service */
+        $service = $this->get('prestashop.module.favoriterider.repository.rider_repository');
+
+        return $service;
     }
 
     /**

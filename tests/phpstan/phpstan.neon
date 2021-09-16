@@ -1,6 +1,6 @@
 includes:
   - %currentWorkingDirectory%/vendor/prestashop/php-dev-tools/phpstan/ps-module-extension.neon
-    
+
 parameters:
   paths:
     - ../../src
@@ -11,3 +11,5 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   level: max
   checkMissingIterableValueType: false
+  doctrine:
+    repositoryClass: PrestaShop\Module\FavoriteRider\Repository\RiderRepository
