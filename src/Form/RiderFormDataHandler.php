@@ -97,6 +97,7 @@ class RiderFormDataHandler implements FormDataHandlerInterface
      *
      * @param int $id
      * @param array $data
+     *
      * @return int
      */
     public function update($id, array $data): int
@@ -110,6 +111,7 @@ class RiderFormDataHandler implements FormDataHandlerInterface
         if ($data['image'] instanceof UploadedFile) {
             $this->riderImageUploader->upload($rider->getId(), $data['image']);
         }
+
         return $rider->getId();
     }
 }

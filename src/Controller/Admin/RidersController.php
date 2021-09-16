@@ -51,13 +51,14 @@ class RidersController extends FrameworkBundleAdminController
      * Index action
      *
      * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))")
-     * 
+     *
      * @param Request $request
      * @param RiderGridFilters $riderGridFilters
      *
      * @return Response
      */
-    public function indexAction(Request $request, RiderGridFilters $riderGridFilters) {
+    public function indexAction(Request $request, RiderGridFilters $riderGridFilters)
+    {
         /** @var GridFactory $ridersGirdFactory */
         $ridersGirdFactory = $this->get('prestashop.module.favoriterider.rider_grid_factory');
         $ridersGrid = $ridersGirdFactory->getGrid($riderGridFilters);

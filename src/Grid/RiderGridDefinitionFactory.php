@@ -48,7 +48,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
 {
-
     const GRID_ID = 'rider_entity';
 
     /**

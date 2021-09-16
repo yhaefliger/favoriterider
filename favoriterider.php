@@ -234,9 +234,9 @@ class FavoriteRider extends Module
 
     /**
      * Header styles & scripts
-     * 
+     *
      * @param array $params
-     * 
+     *
      * @return void
      */
     public function hookDisplayHeader(array $params): void
@@ -259,6 +259,7 @@ class FavoriteRider extends Module
     {
         if ($this->displayWidget()) {
             $this->smarty->assign($this->getRidersWidgetVariables());
+
             return $this->fetch('module:' . $this->name . '/views/templates/front/widget/riders.tpl');
         }
 
