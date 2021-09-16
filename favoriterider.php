@@ -286,7 +286,7 @@ class FavoriteRider extends Module
         //assign riders position by number of votes
         $sortedRiders = $presentedRiders;
         uasort($sortedRiders, function ($a, $b) {
-            return ($a['votes'] < $b['votes']) ? -1 : 1;
+            return ($a['votes'] < $b['votes']) ? 1 : -1;
         });
         $position = 1;
         foreach (array_keys($sortedRiders) as $key) {
