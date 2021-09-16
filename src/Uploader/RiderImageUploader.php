@@ -45,7 +45,7 @@ final class RiderImageUploader extends AbstractImageUploader
     /**
      * {@inheritdoc}
      */
-    public function upload($riderId, UploadedFile $image)
+    public function upload($riderId, UploadedFile $image): bool
     {
         $this->checkImageIsAllowedForUpload($image);
         $temporaryImageName = tempnam(_PS_TMP_IMG_DIR_, 'PS');
@@ -73,17 +73,17 @@ final class RiderImageUploader extends AbstractImageUploader
             @unlink(_PS_TMP_IMG_DIR_ . 'rider_mini_' . $riderId . '.jpg');
         }
 
-        $this->createThumbnail($riderId);
+        return $this->createThumbnail($riderId);
     }
 
     /**
      * Create the thumbnail
      *
-     * @param string $original
+     * @param int $riderId
      *
      * @return bool
      */
-    private function createThumbnail($riderId): bool
+    private function createThumbnail(int $riderId): bool
     {
         $resized = true;
         $filename = Rider::IMAGE_PATH . $riderId . '.jpg';

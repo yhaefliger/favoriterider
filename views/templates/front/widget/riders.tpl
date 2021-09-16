@@ -51,7 +51,7 @@
   <div class="riders-carousel" id="ridersCarousel" style="display:none;">
     {foreach $riders as $rider}
       <div class="relative rider-carousel-item">
-        <img src="{$rider.image.xl}" class="img-fluid" />
+        <img src="{$rider.image.xl}" class="img-fluid" alt="Rider {$rider.name} photo" />
         <div class="rider-info">
           <div class="wrapper">
             <h3>{$rider.name}</h3>

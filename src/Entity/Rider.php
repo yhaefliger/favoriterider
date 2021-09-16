@@ -170,7 +170,7 @@ class Rider
     /**
      * Get Rider image path
      *
-     * @param sring $size (mini, thumb, default)
+     * @param string $size (mini, thumb, default)
      *
      * @return string
      */

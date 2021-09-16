@@ -38,14 +38,14 @@ final class RiderGridFilters extends Filters
     /**
      * {@inheritDoc}
      */
-    public static function getDefaults()
+    public static function getDefaults(): array
     {
         return [
-      'limit' => 20,
-      'offset' => 0,
-      'orderBy' => 'id_rider',
-      'sortOrder' => 'desc',
-      'filters' => [],
-    ];
+          'limit' => 20,
+          'offset' => 0,
+          'orderBy' => 'id_rider',
+          'sortOrder' => 'desc',
+          'filters' => [],
+        ];
     }
 }

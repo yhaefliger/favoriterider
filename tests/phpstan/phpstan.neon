@@ -3,12 +3,11 @@ includes:
     
 parameters:
   paths:
-    - ./
+    - ../../src
+    - ../../controllers
+    - ../../favoriterider.php
   excludes_analyse:
     - vendor/
-  # We consider that the extension file will be stored the folder test/phpstan
-  # From Phpstan 0.12, paths are relative to the .neon file.
-  # - ../../classes
-  # - ../../controllers
   reportUnmatchedIgnoredErrors: false
   level: max
+  checkMissingIterableValueType: false

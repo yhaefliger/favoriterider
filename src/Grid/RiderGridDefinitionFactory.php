@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace PrestaShop\Module\FavoriteRider\Grid;
 
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\RowActionCollection;
+use PrestaShop\PrestaShop\Core\Grid\Action\Row\RowActionCollectionInterface;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\LinkRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Action\Row\Type\SubmitRowAction;
 use PrestaShop\PrestaShop\Core\Grid\Column\ColumnCollection;
@@ -39,6 +40,7 @@ use PrestaShop\PrestaShop\Core\Grid\Column\Type\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AbstractGridDefinitionFactory;
 use PrestaShop\PrestaShop\Core\Grid\Filter\Filter;
 use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollection;
+use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollectionInterface;
 use PrestaShopBundle\Form\Admin\Type\IntegerMinMaxFilterType;
 use PrestaShopBundle\Form\Admin\Type\SearchAndResetType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -46,18 +48,28 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
 {
+
     const GRID_ID = 'rider_entity';
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getId()
     {
         return self::GRID_ID;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getName()
     {
         return $this->trans('Riders', [], 'Modules.Favoriterider.Admin');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getColumns()
     {
         return (new ColumnCollection())
@@ -101,7 +113,10 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
         ;
     }
 
-    protected function getFilters()
+    /**
+     * {@inheritDoc}
+     */
+    protected function getFilters(): FilterCollectionInterface
     {
         return (new FilterCollection())
             ->add(
@@ -155,9 +170,9 @@ final class RiderGridDefinitionFactory extends AbstractGridDefinitionFactory
     }
 
     /**
-     * Grid row actions
+     * {@inheritDoc}
      */
-    private function getRowActions()
+    private function getRowActions(): RowActionCollectionInterface
     {
         return (new RowActionCollection())
             ->add((new LinkRowAction('edit'))

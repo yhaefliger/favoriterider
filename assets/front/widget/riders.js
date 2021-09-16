@@ -22,6 +22,8 @@
  * @copyright Since 2007 PrestaShop SA and Contributors
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
+"use strict";
+
 import $ from 'jquery';
 import 'slick-carousel';
 import 'slick-carousel/slick/slick.scss';
@@ -44,7 +46,7 @@ $(() => {
   });
   
   //global page left/right keys listener
-  $('body').on('keydown',function(e) {
+  $(document).on('keydown', 'body', function(e) {
     var code = e.keyCode || e.which;
     if(code == 37) {
       //left key
@@ -56,7 +58,7 @@ $(() => {
   });
 
   //thumb navigation
-  $('.rider-thumb-btn').on('click', function(e) {
+  $(document).on('click', '.rider-thumb-btn', function(e) {
     const index = parseInt($(this).data('index'));
     carousel.slick('slickGoTo', index);
   });

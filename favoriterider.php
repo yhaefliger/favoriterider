@@ -150,7 +150,7 @@ class FavoriteRider extends Module
      *
      * @return string
      */
-    public function displayForm(array $pages)
+    public function displayForm(array $pages): string
     {
         $pagesOptions = [];
         foreach ($pages as $name => $id) {
@@ -204,7 +204,7 @@ class FavoriteRider extends Module
      *
      * @return string
      */
-    public function hookDisplayHome()
+    public function hookDisplayHome(): string
     {
         $this->context->controller->registerStylesheet('favoriterider-home-styles', $this->assetsPath . 'front/home.css');
 
@@ -234,8 +234,12 @@ class FavoriteRider extends Module
 
     /**
      * Header styles & scripts
+     * 
+     * @param array $params
+     * 
+     * @return void
      */
-    public function hookDisplayHeader($params)
+    public function hookDisplayHeader(array $params): void
     {
         if ($this->displayWidget()) {
             //riders wiget assets
@@ -249,15 +253,17 @@ class FavoriteRider extends Module
      *
      * @param array $params
      *
-     * @return void
+     * @return string
      */
-    public function hookDisplayContentWrapperBottom($params)
+    public function hookDisplayContentWrapperBottom(array $params): string
     {
         if ($this->displayWidget()) {
             $this->smarty->assign($this->getRidersWidgetVariables());
 
             return $this->fetch('module:' . $this->name . '/views/templates/front/widget/riders.tpl');
         }
+
+        return '';
     }
 
     /**
@@ -265,7 +271,7 @@ class FavoriteRider extends Module
      *
      * @return array data
      */
-    public function getRidersWidgetVariables()
+    public function getRidersWidgetVariables(): array
     {
         //retrieve riders
         $ridersRepository = $this->getRepository();
@@ -280,7 +286,7 @@ class FavoriteRider extends Module
         //assign riders position by number of votes
         $sortedRiders = $presentedRiders;
         uasort($sortedRiders, function ($a, $b) {
-            return $a['votes'] < $b['votes'];
+            return ($a['votes'] < $b['votes']) ? -1 : 1;
         });
         $position = 1;
         foreach (array_keys($sortedRiders) as $key) {
@@ -295,6 +301,8 @@ class FavoriteRider extends Module
         );
 
         //check already voted rider
+        $current = 0;
+        $voted = $votedId = false;
         if ($this->context->cookie->favorite_rider) {
             foreach ($presentedRiders as $key => $rider) {
                 if ($rider['id'] == $this->context->cookie->favorite_rider) {
@@ -303,9 +311,6 @@ class FavoriteRider extends Module
                     $votedId = $rider['id'];
                 }
             }
-        } else {
-            $current = 0;
-            $voted = $votedId = false;
         }
 
         return [

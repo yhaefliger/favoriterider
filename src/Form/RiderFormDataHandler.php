@@ -75,7 +75,7 @@ class RiderFormDataHandler implements FormDataHandlerInterface
     /**
      * {@inheritDoc}
      */
-    public function create(array $data)
+    public function create(array $data): int
     {
         $rider = new Rider();
         $rider->setName($data['name']);
@@ -85,15 +85,21 @@ class RiderFormDataHandler implements FormDataHandlerInterface
         $this->entityManager->persist($rider);
         $this->entityManager->flush();
 
-        $this->uploadRiderImage($rider->getId(), $data['image']);
+        if ($data['image'] instanceof UploadedFile) {
+            $this->riderImageUploader->upload($rider->getId(), $data['image']);
+        }
 
         return $rider->getId();
     }
 
     /**
-     * {@inheritDoc}
+     * Undocumented function
+     *
+     * @param int $id
+     * @param array $data
+     * @return int
      */
-    public function update($id, array $data)
+    public function update($id, array $data): int
     {
         /** @var Rider $rider */
         $rider = $this->riderRepository->findOneById($id);
@@ -101,28 +107,9 @@ class RiderFormDataHandler implements FormDataHandlerInterface
         $rider->setDiscipline($data['discipline']);
 
         $this->entityManager->flush();
-
-        $this->uploadRiderImage($rider->getId(), $data['image']);
-
-        return $rider->getId();
-    }
-
-    /**
-     * Image upload handle
-     *
-     * @param UploadedFile
-     *
-     * @return string Image name
-     */
-    private function uploadRiderImage($riderId, $image)
-    {
-        /** @var UploadedFile $uploadedFlagImage */
-        $uploadedImage = $image;
-
-        if ($uploadedImage instanceof UploadedFile) {
-            return $this->riderImageUploader->upload($riderId, $uploadedImage);
+        if ($data['image'] instanceof UploadedFile) {
+            $this->riderImageUploader->upload($rider->getId(), $data['image']);
         }
-
-        return '';
+        return $rider->getId();
     }
 }

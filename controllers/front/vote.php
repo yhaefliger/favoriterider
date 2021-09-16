@@ -24,6 +24,9 @@
  * @license   https://opensource.org/licenses/AFL-3.0 Academic Free License 3.0 (AFL-3.0)
  */
 
+declare(strict_types=1);
+
+use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\FavoriteRider\Entity\Rider;
 use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +39,9 @@ class FavoriteRiderVoteModuleFrontController extends ModuleFrontController
     /**
      * Post process action
      *
-     * @return void
+     * @return Response
      */
-    public function postProcess()
+    public function postProcess(): Response
     {
         $id_rider = (int) Tools::getValue('id_rider');
         //redirect to previous page or home if no referer which should not occur
@@ -54,7 +57,7 @@ class FavoriteRiderVoteModuleFrontController extends ModuleFrontController
         //check rider from repository
         /** @var RiderRepository $riderRepository */
         $riderRepository = $this->context->controller->getContainer()->get('prestashop.module.favoriterider.repository.rider_repository');
-        /** @var Rider $rider */
+        /** @var Rider|null $rider */
         $rider = $riderRepository->find($id_rider);
         if (!$rider) {
             return $this->redirectWithError($this->trans('Rider could not be found. Please try again.', [], 'Modules.Favoriterider.Shop'));
@@ -62,6 +65,7 @@ class FavoriteRiderVoteModuleFrontController extends ModuleFrontController
 
         //check previously voted to decrement
         if ($this->context->cookie->favorite_rider) {
+            /** @var Rider|null $previous_voted_rider */
             $previous_voted_rider = $riderRepository->find($this->context->cookie->favorite_rider);
             if ($previous_voted_rider && $previous_voted_rider->getVotes() > 0) {
                 $previous_voted_rider->setVotes($previous_voted_rider->getVotes() - 1);

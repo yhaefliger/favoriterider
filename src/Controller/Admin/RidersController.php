@@ -31,11 +31,14 @@ namespace PrestaShop\Module\FavoriteRider\Controller\Admin;
 use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\FavoriteRider\Grid\RiderGridDefinitionFactory;
 use PrestaShop\Module\FavoriteRider\Grid\RiderGridFilters;
+use PrestaShop\Module\FavoriteRider\Repository\RiderRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler;
 use PrestaShop\PrestaShop\Core\Foundation\Database\EntityNotFoundException;
+use PrestaShop\PrestaShop\Core\Grid\GridFactory;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use PrestaShopBundle\Security\Annotation\AdminSecurity;
+use PrestaShopBundle\Service\Grid\ResponseBuilder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,16 +51,14 @@ class RidersController extends FrameworkBundleAdminController
      * Index action
      *
      * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))")
-     *
-     * @param RiderGridFilters $filters
+     * 
+     * @param Request $request
+     * @param RiderGridFilters $riderGridFilters
      *
      * @return Response
      */
-    public function indexAction(
-        Request $request,
-        RiderGridFilters $riderGridFilters
-    ) {
-        /** @var PrestaShop\PrestaShop\Core\Grid\GridFactory */
+    public function indexAction(Request $request, RiderGridFilters $riderGridFilters) {
+        /** @var GridFactory $ridersGirdFactory */
         $ridersGirdFactory = $this->get('prestashop.module.favoriterider.rider_grid_factory');
         $ridersGrid = $ridersGirdFactory->getGrid($riderGridFilters);
 
@@ -76,7 +77,7 @@ class RidersController extends FrameworkBundleAdminController
      *
      * @return RedirectResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): RedirectResponse
     {
         /** @var ResponseBuilder $responseBuilder */
         $responseBuilder = $this->get('prestashop.bundle.grid.response_builder');
@@ -98,7 +99,7 @@ class RidersController extends FrameworkBundleAdminController
      *
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request): Response
     {
         $riderFormBuilder = $this->getFormBuilder();
         $riderForm = $riderFormBuilder->getForm();
@@ -132,7 +133,7 @@ class RidersController extends FrameworkBundleAdminController
      *
      * @return Response
      */
-    public function editAction(Request $request, $riderId)
+    public function editAction(Request $request, $riderId): Response
     {
         $riderFormBuilder = $this->getFormBuilder();
         $riderForm = $riderFormBuilder->getFormFor((int) $riderId);
@@ -162,8 +163,9 @@ class RidersController extends FrameworkBundleAdminController
      *
      * @return Response
      */
-    public function deleteAction($riderId)
+    public function deleteAction($riderId): Response
     {
+        /** @var RiderRepository $repository */
         $repository = $this->get('prestashop.module.favoriterider.repository.rider_repository');
 
         try {
