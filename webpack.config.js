@@ -38,7 +38,7 @@ Encore
     .setOutputPath('public/build/admin')
     .setPublicPath('/modules/favoriterider/public/build/admin')
     .setManifestKeyPrefix('build/')
-    //admin
+    //admin riders grid
     .addEntry('riders/index', './assets/admin/riders/index.js')
     .enableBuildNotifications()
     .enableSassLoader()
@@ -64,7 +64,9 @@ Encore
     .setOutputPath('public/build/front')
     .setPublicPath('/modules/favoriterider/public/build/front')
     .setManifestKeyPrefix('build/')
+    //riders vote page widget
     .addEntry('widget/riders', './assets/front/widget/riders.js')
+    //homepage hook
     .addStyleEntry('home', './assets/front/hooks/home.scss')
     .enableBuildNotifications()
     .enableSassLoader()
