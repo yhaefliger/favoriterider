@@ -87,7 +87,7 @@ class FavoriteRider extends Module
      *
      * @return bool
      */
-    public function isUsingNewTranslationSystem()
+    public function isUsingNewTranslationSystem(): bool
     {
         return true;
     }
@@ -97,7 +97,7 @@ class FavoriteRider extends Module
      *
      * @return bool
      */
-    public function install()
+    public function install(): bool
     {
         $installer = $this->getInstaller();
 
@@ -109,7 +109,7 @@ class FavoriteRider extends Module
      *
      * @return bool
      */
-    public function uninstall()
+    public function uninstall(): bool
     {
         $installer = $this->getInstaller();
 
@@ -121,7 +121,7 @@ class FavoriteRider extends Module
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         $output = '';
 
@@ -259,7 +259,6 @@ class FavoriteRider extends Module
     {
         if ($this->displayWidget()) {
             $this->smarty->assign($this->getRidersWidgetVariables());
-
             return $this->fetch('module:' . $this->name . '/views/templates/front/widget/riders.tpl');
         }
 
@@ -330,7 +329,7 @@ class FavoriteRider extends Module
     private function displayWidget(): bool
     {
         //check current controller CMS and page id from module configuration
-        if ($this->context->controller instanceof CmsController) {
+        if ($this->context->controller instanceof CmsControllerCore) {
             $cmsPageId = (int) Configuration::get('FAVORITERIDER_CMS_PAGE_ID');
             if ($cmsPageId && $this->context->controller->cms->id === $cmsPageId) {
                 return true;
