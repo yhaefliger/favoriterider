@@ -12,6 +12,8 @@
         "sass": "^1.39.0",
         "sass-loader": "^12.1.0",
         "slick-carousel": "^1.8.1",
+        "stylelint": "^13.13.1",
+        "stylelint-config-standard": "^22.0.0",
         "webpack-notifier": "^1.13.0"
     },
     "scripts": {

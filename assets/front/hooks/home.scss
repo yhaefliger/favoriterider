@@ -1,111 +1,130 @@
 @use '../../base';
 
 .riders-container {
-    text-align: center; 
-    .home-riders {
-        display:flex;
-        align-items: center;
-        justify-content: center;
-        margin-top:4rem;
-        & > div {
+  text-align: center;
 
-            width:150px;
-            h3{
-                margin-bottom: 0;
-                font-size: 1rem;
-            }
-            .image-container {
-                border-radius: 50%;
-                width: 100%;
-                height: 150px;
-                border: 8px solid #000;
-                background-size:cover;
-                background-position: base.$cropPosition;
-                position: relative;
-                .badge {
-                    position:absolute;
-                    bottom:0;
-                    right: 0;
-                    font-size: 80%;
-                    color:#fff;
-                    background-color:#000;
-                    width: 60px;
-                    height: 60px;
-                    border-radius: 50%;
-                    line-height: 1;
-                    display:flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    .votes{
-                        font-weight:bold;
-                    }
-                }
-            }
-            .rider-info {
-                padding:1rem;
-            }
+  .home-riders {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+
+    & > div {
+      width: 150px;
+
+      h3 {
+        margin-bottom: 0;
+        font-size: 1rem;
+      }
+
+      .image-container {
+        border-radius: 50%;
+        width: 100%;
+        height: 150px;
+        border: 8px solid #000;
+        background-size: cover;
+        background-position: base.$cropPosition;
+        position: relative;
+
+        .badge {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          font-size: 80%;
+          color: #fff;
+          background-color: #000;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          line-height: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+
+          .votes {
+            font-weight: bold;
+          }
         }
-        .pos-2 {
-            order:1;
-            .image-container {
-                border-color: base.$silver;
-                .badge {
-                    background-color:base.$silverDark;
-                }
-            }
-        }
-        .pos-3 {
-            order:3;
-            .image-container {
-                border-color: base.$bronze;
-                .badge {
-                    background-color:base.$bronzeDark;
-                }
-            }
-            
-        }
-        .pos-1 {
-            order:2;
-            margin-top:-2rem;
-            h3{
-                font-size:1.1rem;
-            }
-            .image-container {
-                z-index: 20;
-                border:10px solid base.$gold;
-                position:relative;
-                left:-1rem;
-                width:190px;
-                height: 190px;
-                .badge {
-                    background-color:base.$goldDark;
-                }
-            }
-        }
+      }
+
+      .rider-info {
+        padding: 1rem;
+      }
     }
-    .cta-link {
-        margin: 1.5rem 0;
+
+    .pos-2 {
+      order: 1;
+
+      .image-container {
+        border-color: base.$silver;
+
+        .badge {
+          background-color: base.$silverDark;
+        }
+      }
     }
+
+    .pos-3 {
+      order: 3;
+
+      .image-container {
+        border-color: base.$bronze;
+
+        .badge {
+          background-color: base.$bronzeDark;
+        }
+      }
+    }
+
+    .pos-1 {
+      order: 2;
+      margin-top: -2rem;
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      .image-container {
+        z-index: 20;
+        border: 10px solid base.$gold;
+        position: relative;
+        left: -1rem;
+        width: 190px;
+        height: 190px;
+
+        .badge {
+          background-color: base.$goldDark;
+        }
+      }
+    }
+  }
+
+  .cta-link {
+    margin: 1.5rem 0;
+  }
 }
 
-@media (min-width: 992px) { 
-    .riders-container .home-riders {
-        & > div {
-            width:240px;
-            .image-container {
-                height:240px;
-            }
-        }
-        .pos-1 {
-            h3 {
-                font-size: 1.3rem;
-            }
-            .image-container {
-                width:280px;
-                height: 280px;
-                border-width: 15px;
-            }
-        } 
+@media (min-width: 992px) {
+  .riders-container .home-riders {
+    & > div {
+      width: 240px;
+
+      .image-container {
+        height: 240px;
+      }
     }
+
+    .pos-1 {
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      .image-container {
+        width: 280px;
+        height: 280px;
+        border-width: 15px;
+      }
+    }
+  }
 }
